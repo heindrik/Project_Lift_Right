@@ -25,6 +25,8 @@ namespace Project_Lift_Right
         public MainPage()
         {
             this.InitializeComponent();
+            
         }
     }
+    //Hello
 }
