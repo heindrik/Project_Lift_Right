@@ -20,18 +20,16 @@ namespace Project_Lift_Right
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class BlankPage1 : Page
     {
-        public MainPage()
+        public BlankPage1()
         {
             this.InitializeComponent();
-            
         }
 
-        private void finish_btn_Click(object sender, RoutedEventArgs e)
+        private void go_back_btn_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(BlankPage1), null);
+            this.Frame.Navigate(typeof(MainPage),null);
         }
     }
-    //Hello
 }

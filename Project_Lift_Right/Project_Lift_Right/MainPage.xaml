@@ -8,6 +8,19 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
+            <TextBlock x:Name="app_name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Lift Right" VerticalAlignment="Top" Height="35" Width="147" FontSize="30" Foreground="Black" Canvas.Left="532" Canvas.Top="49"/>
+            <Canvas x:Name="for_kinect" Height="415" Canvas.Left="70.858" Canvas.Top="95" Width="1062.284" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Background="#21383131" >
+                <Button x:Name="feedback_btn" Content="FEEDBACK" Canvas.Left="801" Canvas.Top="41" Height="59" Width="196" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black"/>
+                <Button x:Name="feedback_btn2" Content="FEEDBACK" Canvas.Left="801" Canvas.Top="125" Height="59" Width="196" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black"/>
+            </Canvas>
+            <TextBlock x:Name="workout_name" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Workout Name" VerticalAlignment="Top" Height="34" Width="250" FontSize="30" Foreground="Black" Canvas.Left="475" Canvas.Top="521"/>
+            <Button x:Name="menu_btn" Content="Menu" Canvas.Left="114" Canvas.Top="590" Height="59" Width="136" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black"/>
+            <Button x:Name="pause_btn" Content="Pause" Canvas.Left="276" Canvas.Top="590" Height="59" Width="136" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black"/>
+            <Button x:Name="stop_btn" Content="Stop" Canvas.Left="430" Canvas.Top="590" Height="59" Width="136" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black"/>
+            <Button x:Name="finish_btn" Content="Finish" Canvas.Left="967" Canvas.Top="590" Height="59" Width="136" Background="Transparent" Foreground="Black" FontSize="30px" BorderBrush="Black" Click="finish_btn_Click"/>
+        </Canvas>
+
 
     </Grid>
 </Page>
