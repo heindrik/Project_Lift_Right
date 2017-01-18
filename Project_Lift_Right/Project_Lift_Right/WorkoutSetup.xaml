@@ -9,8 +9,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="111"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="149"/>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="111"/>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="149"/>
             <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="684" Canvas.Top="218" Height="228">
                 <TextBlock Height="228" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="IMAGE" Canvas.Top="88" Width="249" Foreground="Black" FontSize="50" TextAlignment="Center" SelectionHighlightColor="#FF431D9E"/>
             </Border>
@@ -24,10 +24,10 @@
 
             <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Sets:" VerticalAlignment="Top" Width="196" Canvas.Left="107" Canvas.Top="176"/>
             <ComboBox x:Name="set_select" Height="34" Canvas.Left="120" Canvas.Top="209" Width="225" BorderBrush="Black" SelectedIndex="0" >
-                <ComboBoxItem>1 set</ComboBoxItem>
-                <ComboBoxItem>2 sets</ComboBoxItem>
-                <ComboBoxItem>3 sets</ComboBoxItem>
-                <ComboBoxItem>4 sets</ComboBoxItem>
+                <ComboBoxItem>30 sec</ComboBoxItem>
+                <ComboBoxItem>1 min</ComboBoxItem>
+                <ComboBoxItem>1.5 min</ComboBoxItem>
+                <ComboBoxItem>2 min</ComboBoxItem>
             </ComboBox>
 
             <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of rest period:" VerticalAlignment="Top" Width="196" Canvas.Left="107" Canvas.Top="286"/>
