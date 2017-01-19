@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="Project_Lift_Right.NewUser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_Lift_Right"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
+            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="465" Canvas.Top="63">
+                <TextBlock Height="228" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="IMAGE" Canvas.Top="88" Width="249" Foreground="Black" FontSize="50" TextAlignment="Center" SelectionHighlightColor="#FF431D9E"/>
+            </Border>
+            <TextBox Height="57" Canvas.Left="311" TextWrapping="Wrap" Text="Name..." Canvas.Top="364" Width="588" BorderBrush="Black" FontSize="20"/>
+            <Button x:Name="create_profile_btn" Content="Create Profile" Height="57" Canvas.Left="452" Canvas.Top="505" Width="266" Foreground="Black" FontSize="17"/>
+            <Button x:Name="back_btn" Content="Back" Height="52" Canvas.Left="41" Canvas.Top="63" Width="150" Foreground="Black" FontSize="17" BorderBrush="Black" Click="back_btn_Click"/>
+
+        </Canvas>
+    </Grid>
+</Page>

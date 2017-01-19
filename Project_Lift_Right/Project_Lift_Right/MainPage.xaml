@@ -8,6 +8,16 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
+            <ComboBox x:Name="profile_select" Height="72" Canvas.Left="331" Canvas.Top="236" Width="511" BorderBrush="Black" SelectionChanged="profile_select_SelectionChanged" SelectedIndex="0" >
+                <ComboBoxItem>Choose Profile...</ComboBoxItem>
+                <ComboBoxItem>Profile 1</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Height="29" Canvas.Left="331" TextWrapping="Wrap" Text="Select Profile" Canvas.Top="213" Width="173" Foreground="Black" FontSize="15"/>
+            <Button x:Name="new_user_btn" Content="New User" Height="42" Canvas.Left="370" Canvas.Top="410" Width="158" Foreground="Black" BorderBrush="Black" Click="new_user_btn_Click"/>
+            <Button x:Name="sel_workout_btn" Content="Select Workout" Height="42" Canvas.Left="607" Canvas.Top="410" Width="158" Foreground="Black" BorderBrush="Black" Click="sel_workout_btn_Click"/>
 
+
+        </Canvas>
     </Grid>
 </Page>

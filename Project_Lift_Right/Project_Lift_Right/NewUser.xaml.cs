@@ -20,30 +20,16 @@ namespace Project_Lift_Right
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class NewUser : Page
     {
-        public MainPage()
+        public NewUser()
         {
             this.InitializeComponent();
-            
         }
-        
-        private void profile_select_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void back_btn_Click(object sender, RoutedEventArgs e)
         {
-        
-
+            this.Frame.Navigate(typeof(MainPage), null);
         }
-
-        private void new_user_btn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(NewUser),null);
-        }
-
-        private void sel_workout_btn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(SelectWorkout), null);
-        }
-
     }
-    //Hello
 }
