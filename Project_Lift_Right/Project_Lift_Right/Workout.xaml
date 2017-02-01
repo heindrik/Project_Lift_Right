@@ -16,13 +16,16 @@
             <TextBlock Height="29" Canvas.Left="911" TextWrapping="Wrap" Text="XX : XX" Canvas.Top="91" Width="145" Foreground="Black" FontSize="20" TextAlignment="Center"/>
             <Button x:Name="start_btn" Content="Start" Height="55" Canvas.Left="908" Canvas.Top="202" Width="160" BorderBrush="Black" Foreground="Black" FontSize="20"/>
             <Button x:Name="pause_btn" Content="Pause" Height="55" Canvas.Left="908" Canvas.Top="297" Width="160" BorderBrush="Black" Foreground="Black" FontSize="20"/>
+            <Button x:Name="BodyJoints" Content="BodyJoints" Height="88" Canvas.Left="809" Canvas.Top="379" Width="160" BorderBrush="Black" Foreground="Black" FontSize="20" Click="BodyJointsButton_Click"/>
+            <Button x:Name="Infrared" Content="Infrared" Height="88" Canvas.Left="1012" Canvas.Top="379" Width="160" BorderBrush="Black" Foreground="Black" FontSize="20" Click="InfraredButton_Click"/>
             <Button x:Name="done_btn" Content="Done" Height="88" Canvas.Left="908" Canvas.Top="490" Width="160" BorderBrush="Black" Foreground="Black" FontSize="20" Click="done_btn_Click"/>
+            <Button Content="Button"/>
         </Canvas>
         <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="684" Canvas.Top="218" Margin="163,73,521,255">
             <Grid Margin="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="350"/>
                     <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" 
@@ -42,8 +45,11 @@
                 </StackPanel>
                 <Image x:Name="FrameDisplayImage" Grid.Row="1" 
                 Stretch="Uniform"/>
+                <Viewbox Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512" Height="424"/>
+                </Viewbox>
             </Grid>
         </Border>
     </Grid>
- 
+
 </Page>
