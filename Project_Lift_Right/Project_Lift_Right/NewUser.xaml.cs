@@ -31,5 +31,10 @@ namespace Project_Lift_Right
         {
             this.Frame.Navigate(typeof(MainPage), null);
         }
+
+        private void bt_gender_Toggled(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

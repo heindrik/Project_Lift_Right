@@ -8,12 +8,15 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
-            <Rectangle Fill="#FFCFCFD0" HorizontalAlignment="Left" Height="364" Stroke="Black" VerticalAlignment="Top" Width="853" Canvas.Left="184" Canvas.Top="47"/>
-            <Button x:Name="deadlift_btn" Content="DeadLift" Height="56" Canvas.Left="195" Canvas.Top="540" Width="194" BorderBrush="Black" FontSize="17" Foreground="Black" Click="exercise_select_btn_Click"/>
-            <Button x:Name="bicep_btn" Content="Bicep Curls" Height="56" Canvas.Left="507" Canvas.Top="540" Width="194" BorderBrush="Black" FontSize="17" Foreground="Black" Click="exercise_select_btn_Click"/>
-            <Button x:Name="squat_btn" Content="Squats" Height="56" Canvas.Left="826" Canvas.Top="540" Width="194" BorderBrush="Black" FontSize="17" Foreground="Black" Click="exercise_select_btn_Click"/>
-            <Button x:Name="change_profile_btn" Content="Change Profile" Height="56" Canvas.Left="455" Canvas.Top="437" Width="290" BorderBrush="Black" FontSize="17" Foreground="Black" Click="change_profile_btn_Click"/>
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366">
+            <Canvas.Background>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/bg_select_workout.jpg"/>
+            </Canvas.Background>
+            <Rectangle Fill="#7FCFCFD0" HorizontalAlignment="Left" Height="364" Stroke="Black" VerticalAlignment="Top" Width="853" Canvas.Left="264" Canvas.Top="93"/>
+            <Button x:Name="deadlift_btn" Content="DeadLift" Height="56" Canvas.Left="281" Canvas.Top="592" Width="194" BorderBrush="Black" FontSize="17" Foreground="#FFFF9900" Click="exercise_select_btn_Click" Background="#7FAAAAAA"/>
+            <Button x:Name="bicep_btn" Content="Bicep Curls" Height="56" Canvas.Left="588" Canvas.Top="592" Width="194" BorderBrush="Black" FontSize="17" Foreground="#FFFF9900" Click="exercise_select_btn_Click" Background="#4CAAAAAA"/>
+            <Button x:Name="squat_btn" Content="Squats" Height="56" Canvas.Left="895" Canvas.Top="592" Width="194" BorderBrush="Black" FontSize="17" Foreground="#FFFF9900" Click="exercise_select_btn_Click" Background="#4CAAAAAA"/>
+            <Button x:Name="change_profile_btn" Content="Change Profile" Height="56" Canvas.Left="539" Canvas.Top="485" Width="290" BorderBrush="#FFDDDDDD" FontSize="17" Foreground="#FFDDDDDD" Click="change_profile_btn_Click"/>
         </Canvas>
     </Grid>
 </Page>

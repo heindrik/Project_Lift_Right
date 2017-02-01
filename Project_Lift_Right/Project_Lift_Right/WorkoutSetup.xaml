@@ -8,37 +8,39 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="111"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="694" Canvas.Top="149"/>
-            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="684" Canvas.Top="218" Height="228">
-                <TextBlock Height="228" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="IMAGE" Canvas.Top="88" Width="249" Foreground="Black" FontSize="50" TextAlignment="Center" SelectionHighlightColor="#FF431D9E"/>
-            </Border>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Workout:" VerticalAlignment="Top" Width="196" Canvas.Left="107" Canvas.Top="80"/>
-            <ComboBox x:Name="time_select" Height="34" Canvas.Left="120" Canvas.Top="118" Width="225" BorderBrush="Black" SelectedIndex="0" >
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366">
+            <Canvas.Background>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/bg_workout_setup.jpg"/>
+            </Canvas.Background>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1114" Canvas.Top="304" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1114" Canvas.Top="238" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
+
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Workout:" VerticalAlignment="Top" Width="196" Canvas.Left="173" Canvas.Top="109" Background="Transparent" BorderBrush="#00DDDDDD" Foreground="#FFDDDDDD"/>
+            <ComboBox x:Name="time_select" Height="34" Canvas.Left="222" Canvas.Top="142" Width="225" BorderBrush="Black" SelectedIndex="0" >
                 <ComboBoxItem>5 minutes</ComboBoxItem>
                 <ComboBoxItem>10 minutes</ComboBoxItem>
                 <ComboBoxItem>15 minutes</ComboBoxItem>
                 <ComboBoxItem>20 minutes</ComboBoxItem>
             </ComboBox>
 
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Sets:" VerticalAlignment="Top" Width="196" Canvas.Left="107" Canvas.Top="176"/>
-            <ComboBox x:Name="set_select" Height="34" Canvas.Left="120" Canvas.Top="209" Width="225" BorderBrush="Black" SelectedIndex="0" >
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Sets:" VerticalAlignment="Top" Width="196" Canvas.Left="173" Canvas.Top="233" Background="Transparent" BorderBrush="#00DDDDDD" Foreground="#FFDDDDDD"/>
+            <ComboBox x:Name="set_select" Height="34" Canvas.Left="222" Canvas.Top="266" Width="225" BorderBrush="Black" SelectedIndex="0" >
                 <ComboBoxItem>30 sec</ComboBoxItem>
                 <ComboBoxItem>1 min</ComboBoxItem>
                 <ComboBoxItem>1.5 min</ComboBoxItem>
                 <ComboBoxItem>2 min</ComboBoxItem>
             </ComboBox>
 
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of rest period:" VerticalAlignment="Top" Width="196" Canvas.Left="107" Canvas.Top="286"/>
-            <ComboBox x:Name="rest_select" Height="34" Canvas.Left="120" Canvas.Top="316" Width="225" BorderBrush="Black" SelectedIndex="0" >
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of rest period:" VerticalAlignment="Top" Width="196" Canvas.Left="173" Canvas.Top="353" Background="Transparent" BorderBrush="#00DDDDDD" Foreground="#FFDDDDDD"/>
+            <ComboBox x:Name="rest_select" Height="34" Canvas.Left="222" Canvas.Top="386" Width="225" BorderBrush="Black" SelectedIndex="0" >
                 <ComboBoxItem>30 secs</ComboBoxItem>
                 <ComboBoxItem>1 min</ComboBoxItem>
                 <ComboBoxItem>1.5 min</ComboBoxItem>
                 <ComboBoxItem>2 min</ComboBoxItem>
             </ComboBox>
-            <Button x:Name="go_btn" Content="go" Height="58" Canvas.Left="117" Canvas.Top="404" Width="194" Foreground="Black" Background="Gray" Click="go_btn_Click"/>
+            <Button x:Name="go_btn" Content="go" Height="58" Canvas.Left="573" Canvas.Top="607" Width="194" Foreground="#FFDDDDDD" Background="#4CAAAAAA" Click="go_btn_Click"/>
             <Button x:Name="back_btn" Content="Back" Height="44" Canvas.Left="30" Canvas.Top="22" Width="114" Foreground="black" BorderBrush="Black" FontSize="17" Click="back_btn_Click"/>
+            <Image Height="224" Canvas.Left="835" Canvas.Top="196" Width="238" Source="Assets/setup_profile.png" Opacity="0.5"/>
         </Canvas>
 
     </Grid>

@@ -8,13 +8,23 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="686" Margin="79,41,0,0" VerticalAlignment="Top" Width="1207" Background="White">
-            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="465" Canvas.Top="63">
-                <TextBlock Height="228" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="IMAGE" Canvas.Top="88" Width="249" Foreground="Black" FontSize="50" TextAlignment="Center" SelectionHighlightColor="#FF431D9E"/>
-            </Border>
-            <TextBox Height="57" Canvas.Left="311" TextWrapping="Wrap" Text="Name..." Canvas.Top="364" Width="588" BorderBrush="Black" FontSize="20"/>
-            <Button x:Name="create_profile_btn" Content="Create Profile" Height="57" Canvas.Left="452" Canvas.Top="505" Width="266" Foreground="Black" FontSize="17"/>
-            <Button x:Name="back_btn" Content="Back" Height="52" Canvas.Left="41" Canvas.Top="63" Width="150" Foreground="Black" FontSize="17" BorderBrush="Black" Click="back_btn_Click"/>
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366">
+            <Canvas.Background>
+                <ImageBrush Stretch="Fill" ImageSource="Assets/bg_new_user.gif"/>
+            </Canvas.Background>
+
+            <TextBox Height="57" Canvas.Left="412" TextWrapping="Wrap" Text="Name..." Canvas.Top="391" Width="588"  BorderBrush="White" FontSize="20" Background="#CC4D4D4D" Foreground="#FFDDDDDD"/>
+            <Button x:Name="create_profile_btn" Content="Create Profile" Height="57" Canvas.Left="558" Canvas.Top="539" Width="266" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" FontSize="17"/>
+            <Button x:Name="back_btn" Content="Back" Height="52" Canvas.Left="41" Canvas.Top="63" Width="150"  FontSize="17" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="back_btn_Click"/>
+            <Image Height="182" Canvas.Left="591" Canvas.Top="135" Width="208" Source="Assets/profile_image.jpg"/>
+            <ToggleSwitch x:Name="bt_gender" Header="Gender" Height="76" Canvas.Left="1082" Canvas.Top="75" Width="140" Toggled="bt_gender_Toggled" Foreground="#FFDDDDDD" Background="#7F216781">
+                <ToggleSwitch.OffContent>
+                    <TextBlock Text="   Male" />
+                </ToggleSwitch.OffContent>
+                <ToggleSwitch.OnContent>
+                    <TextBlock Text="   Female" />
+                </ToggleSwitch.OnContent>
+            </ToggleSwitch>
 
         </Canvas>
     </Grid>
