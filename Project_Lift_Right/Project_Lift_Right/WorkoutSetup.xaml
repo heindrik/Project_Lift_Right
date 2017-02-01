@@ -12,8 +12,8 @@
             <Canvas.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/bg_workout_setup.jpg"/>
             </Canvas.Background>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1114" Canvas.Top="304" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1114" Canvas.Top="238" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Exercise:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1004" Canvas.Top="307" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
+            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="1004" Canvas.Top="238" Background="Transparent" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD"/>
 
             <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Length of Workout:" VerticalAlignment="Top" Width="196" Canvas.Left="173" Canvas.Top="109" Background="Transparent" BorderBrush="#00DDDDDD" Foreground="#FFDDDDDD"/>
             <ComboBox x:Name="time_select" Height="34" Canvas.Left="222" Canvas.Top="142" Width="225" BorderBrush="Black" SelectedIndex="0" >
@@ -40,7 +40,7 @@
             </ComboBox>
             <Button x:Name="go_btn" Content="go" Height="58" Canvas.Left="573" Canvas.Top="607" Width="194" Foreground="#FFDDDDDD" Background="#4CAAAAAA" Click="go_btn_Click"/>
             <Button x:Name="back_btn" Content="Back" Height="44" Canvas.Left="30" Canvas.Top="22" Width="114" Foreground="black" BorderBrush="Black" FontSize="17" Click="back_btn_Click"/>
-            <Image Height="224" Canvas.Left="835" Canvas.Top="196" Width="238" Source="Assets/setup_profile.png" Opacity="0.5"/>
+            <Image Height="224" Canvas.Left="742" Canvas.Top="196" Width="238" Source="Assets/setup_profile.png" Opacity="0.5"/>
         </Canvas>
 
     </Grid>
