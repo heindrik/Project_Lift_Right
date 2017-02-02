@@ -15,17 +15,31 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using WindowsPreview.Kinect;
 using System.ComponentModel;
+using Windows.Storage.Streams;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Project_Lift_Right
 {
-
+    // display type for reference
+    public enum DisplayFrameType
+    {
+        Infrared,
+        Color,
+        Depth,
+        BodyMask,
+        BodyJoints
+    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class Workout : Page
     {
+        private const DisplayFrameType DEFAULT_DISPLAYFRAMETYPE = DisplayFrameType.Infrared;
+        //private const DisplayFrameType DEFAULT_DISPLAYFRAMETYPE = DisplayFrameType.BodyJoints;
         /// <summary>
         /// The highest value that can be returned in the InfraredFrame.
         /// It is cast to a float for readability in the visualization code.
@@ -71,11 +85,17 @@ namespace Project_Lift_Right
         private string statusText = null;
         private WriteableBitmap bitmap = null;
         private FrameDescription currentFrameDescription;
+        private DisplayFrameType currentDisplayFrameType;
+        private MultiSourceFrameReader multiSourceFrameReader = null;
+        private CoordinateMapper coordinateMapper = null;
+        private BodiesManager bodiesManager = null;
 
         //Infrared Frame 
         private InfraredFrameReader infraredFrameReader = null;
         private ushort[] infraredFrameData = null;
         private byte[] infraredPixels = null;
+        //Body Joints are drawn here
+        private Canvas drawingCanvas;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string StatusText
@@ -116,8 +136,16 @@ namespace Project_Lift_Right
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
 
+            SetupCurrentDisplay(DEFAULT_DISPLAYFRAMETYPE);
+            //SetupCurrentDisplay(DisplayFrameType.BodyJoints);
+            this.coordinateMapper = this.kinectSensor.CoordinateMapper;
+
+            this.multiSourceFrameReader = this.kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Infrared | FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.BodyIndex | FrameSourceTypes.Body);
+
+            this.multiSourceFrameReader.MultiSourceFrameArrived += this.Reader_MultiSourceFrameArrived;
+
             // get the infraredFrameDescription from the InfraredFrameSource
-            FrameDescription infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
+           /* FrameDescription infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
 
             // open the reader for the infrared frames
             this.infraredFrameReader = this.kinectSensor.InfraredFrameSource.OpenReader();
@@ -133,6 +161,7 @@ namespace Project_Lift_Right
             this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
 
             this.CurrentFrameDescription = infraredFrameDescription;
+            */
 
             // set IsAvailableChanged event notifier
             this.kinectSensor.IsAvailableChanged += this.Sensor_IsAvailableChanged;
@@ -147,45 +176,152 @@ namespace Project_Lift_Right
             this.InitializeComponent();
         }
 
-        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
+        private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
         {
-            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
+            currentDisplayFrameType = newDisplayFrameType;
+            // Frames used by more than one type are declared outside the switch
+            FrameDescription colorFrameDescription = null;
+            // reset the display methods
+            if (this.BodyJointsGrid != null)
+            {
+                this.BodyJointsGrid.Visibility = Visibility.Collapsed;
+            }
+            if (this.FrameDisplayImage != null)
+            {
+                this.FrameDisplayImage.Source = null;
+            }
+            switch (currentDisplayFrameType)
+            {
+                case DisplayFrameType.Infrared:
+                    FrameDescription infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = infraredFrameDescription;
+                    // allocate space to put the pixels being received and converted
+                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
+                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
+                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
+                    break;
+
+                case DisplayFrameType.BodyJoints:
+                    // instantiate a new Canvas
+                    this.drawingCanvas = new Canvas();
+                    // set the clip rectangle to prevent rendering outside the canvas
+                    this.drawingCanvas.Clip = new RectangleGeometry();
+                    this.drawingCanvas.Clip.Rect = new Rect(0.0, 0.0, this.BodyJointsGrid.Width, this.BodyJointsGrid.Height);
+                    this.drawingCanvas.Width = this.BodyJointsGrid.Width;
+                    this.drawingCanvas.Height = this.BodyJointsGrid.Height;
+                    // reset the body joints grid
+                    this.BodyJointsGrid.Visibility = Visibility.Visible;
+                    this.BodyJointsGrid.Children.Clear();
+                    // add canvas to DisplayGrid
+                    this.BodyJointsGrid.Children.Add(this.drawingCanvas);
+                    bodiesManager = new BodiesManager(this.coordinateMapper, this.drawingCanvas, this.kinectSensor.BodyFrameSource.BodyCount);
+                    break;
+                default:
+                    break;
+            }
         }
 
-        private void Reader_InfraredFrameArrived(object sender,
-    InfraredFrameArrivedEventArgs e)
+        private void ShowBodyJoints(BodyFrame bodyFrame)
+        {
+            Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
+            bool dataReceived = false;
+            if (bodyFrame != null)
+            {
+                bodyFrame.GetAndRefreshBodyData(bodies);
+                dataReceived = true;
+            }
+
+            if (dataReceived)
+            {
+                this.bodiesManager.UpdateBodiesAndEdges(bodies);
+            }
+        }
+
+        private void ShowInfraredFrame(InfraredFrame infraredFrame)
         {
             bool infraredFrameProcessed = false;
 
-            // InfraredFrame is IDisposable
-            using (InfraredFrame infraredFrame = e.FrameReference.AcquireFrame())
+            if (infraredFrame != null)
             {
-                if (infraredFrame != null)
+                FrameDescription infraredFrameDescription = infraredFrame.FrameDescription;
+
+                // verify data and write the new infrared frame data to the display bitmap
+                if (((infraredFrameDescription.Width * infraredFrameDescription.Height)
+                    == this.infraredFrameData.Length) &&
+                    (infraredFrameDescription.Width == this.bitmap.PixelWidth) &&
+                    (infraredFrameDescription.Height == this.bitmap.PixelHeight))
                 {
-                    FrameDescription infraredFrameDescription =
-                infraredFrame.FrameDescription;
+                    // Copy the pixel data from the image to a temporary array
+                    infraredFrame.CopyFrameDataToArray(this.infraredFrameData);
 
-                    // verify data and write the new infrared frame data to the display bitmap
-                    if (((infraredFrameDescription.Width * infraredFrameDescription.Height)
-                == this.infraredFrameData.Length) &&
-                        (infraredFrameDescription.Width == this.bitmap.PixelWidth) &&
-                (infraredFrameDescription.Height == this.bitmap.PixelHeight))
-                    {
-                        // Copy the pixel data from the image to a temporary array
-                        infraredFrame.CopyFrameDataToArray(this.infraredFrameData);
-
-                        infraredFrameProcessed = true;
-                    }
+                    infraredFrameProcessed = true;
                 }
             }
 
             // we got a frame, convert and render
             if (infraredFrameProcessed)
             {
-                ConvertInfraredDataToPixels();
-                RenderPixelArray(this.infraredPixels);
+                this.ConvertInfraredDataToPixels();
+                this.RenderPixelArray(this.infraredPixels);
             }
         }
+
+        private void Reader_MultiSourceFrameArrived(MultiSourceFrameReader sender, MultiSourceFrameArrivedEventArgs e)
+        {
+
+            MultiSourceFrame multiSourceFrame = e.FrameReference.AcquireFrame();
+
+            // If the Frame has expired by the time we process this event, return.
+            if (multiSourceFrame == null)
+            {
+                return;
+            }
+            DepthFrame depthFrame = null;
+            ColorFrame colorFrame = null;
+            InfraredFrame infraredFrame = null;
+            BodyFrame bodyFrame = null;
+            BodyIndexFrame bodyIndexFrame = null;
+            IBuffer depthFrameData = null;
+            IBuffer bodyIndexFrameData = null;
+            // Com interface for unsafe byte manipulation
+           // IBufferByteAccess bodyIndexByteAccess = null;
+
+            switch (currentDisplayFrameType)
+            {
+                case DisplayFrameType.Infrared:
+                    using (infraredFrame = multiSourceFrame.InfraredFrameReference.AcquireFrame())
+                    {
+                        ShowInfraredFrame(infraredFrame);
+                    }
+                    break;
+               /* case DisplayFrameType.Color:
+                    using (colorFrame = multiSourceFrame.ColorFrameReference.AcquireFrame())
+                    {
+                        ShowColorFrame(colorFrame);
+                    }
+                    break;
+                case DisplayFrameType.Depth:
+                    using (depthFrame = multiSourceFrame.DepthFrameReference.AcquireFrame())
+                    {
+                        ShowDepthFrame(depthFrame);
+                    }
+                    break;*/
+                case DisplayFrameType.BodyJoints:
+                    using (bodyFrame = multiSourceFrame.BodyFrameReference.AcquireFrame())
+                    {
+                        ShowBodyJoints(bodyFrame);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
+        {
+            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
+        }
+
 
         private void ConvertInfraredDataToPixels()
         {
@@ -224,7 +360,15 @@ namespace Project_Lift_Right
             FrameDisplayImage.Source = this.bitmap;
         }
 
+        private void InfraredButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.Infrared);
+        }
 
+        private void BodyJointsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.BodyJoints);
+        }
 
         private void done_btn_Click(object sender, RoutedEventArgs e)
         {
