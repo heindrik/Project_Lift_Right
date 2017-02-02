@@ -149,7 +149,15 @@
     <None Include="Project_Lift_Right_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\bg_new_user.gif" />
+    <Content Include="Assets\bg_select_workout.jpg" />
+    <Content Include="Assets\bg_summary.jpg" />
+    <Content Include="Assets\bg_welcome_page.jpg" />
+    <Content Include="Assets\bg_workout.jpg" />
+    <Content Include="Assets\bg_workout_setup.jpg" />
     <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\profile_image.jpg" />
+    <Content Include="Assets\setup_profile.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
