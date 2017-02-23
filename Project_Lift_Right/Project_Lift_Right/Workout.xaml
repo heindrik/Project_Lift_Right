@@ -45,6 +45,9 @@
                 </StackPanel>
                 <Image x:Name="FrameDisplayImage" 
                 Stretch="Uniform" Margin="-10,56,10,34" Grid.RowSpan="3"/>
+                <Viewbox Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512"  Height="414"/>
+                </Viewbox>
             </Grid>
         </Border>
     </Grid>
