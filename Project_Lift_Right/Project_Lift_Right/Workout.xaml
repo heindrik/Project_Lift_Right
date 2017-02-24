@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366" Opacity="0.85">
+        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366" Opacity="0.85" Margin="-60,8,0,-8">
             <Canvas.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/bg_workout.jpg"/>
             </Canvas.Background>
@@ -44,12 +44,12 @@
                     <TextBlock Text=
                     "{Binding CurrentFrameDescription.Height}"/>
                 </StackPanel>
+                <Image x:Name="FrameDisplayImage" 
+                Stretch="Uniform" Margin="0,22,0,68" Grid.RowSpan="3"/>
 
                 <Viewbox Grid.Row="1" HorizontalAlignment="Center">
                     <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512"  Height="414"/>
                 </Viewbox>
-                <Image x:Name="FrameDisplayImage" 
-                Stretch="Uniform" Margin="1436,-48,-1436,38" Grid.RowSpan="2"/>
 
             </Grid>
         </Border>

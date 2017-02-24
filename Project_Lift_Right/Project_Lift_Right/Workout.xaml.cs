@@ -215,6 +215,15 @@ namespace Project_Lift_Right
                     // add canvas to DisplayGrid
                     this.BodyJointsGrid.Children.Add(this.drawingCanvas);
                     bodiesManager = new BodiesManager(this.coordinateMapper, this.drawingCanvas, this.kinectSensor.BodyFrameSource.BodyCount);
+                    
+                    infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = infraredFrameDescription;
+                    // allocate space to put the pixels being received and converted
+                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
+                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
+                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
+
+
                     break;
                 default:
                     break;
@@ -307,6 +316,13 @@ namespace Project_Lift_Right
                     }
                     break;*/
                 case DisplayFrameType.BodyJoints:
+
+                    using (infraredFrame = multiSourceFrame.InfraredFrameReference.AcquireFrame())
+                    {
+                        ShowInfraredFrame(infraredFrame);
+                    }
+                    
+                    
                     using (bodyFrame = multiSourceFrame.BodyFrameReference.AcquireFrame())
                     {
                         ShowBodyJoints(bodyFrame);
