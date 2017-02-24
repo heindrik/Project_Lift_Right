@@ -7,52 +7,47 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366" Opacity="0.85" Margin="-60,8,0,-8">
-            <Canvas.Background>
-                <ImageBrush Stretch="Fill" ImageSource="Assets/bg_workout.jpg"/>
-            </Canvas.Background>
-            <TextBox Height="82" Canvas.Left="577" TextWrapping="Wrap"  BorderBrush="Black" Text="Exercise name:
-                     Time remaining: " Canvas.Top="598" Width="405"/>
-            <TextBox Height="82" Canvas.Left="163" TextWrapping="Wrap" Text="Feedback signal" Canvas.Top="598" Width="267" BorderBrush="Black"/>
-            <TextBlock Height="29" Canvas.Left="1099" TextWrapping="Wrap" Text="Timer" Canvas.Top="83" Width="145" Foreground="#FFDDDDDD" FontSize="25" TextAlignment="Center"/>
-            <TextBlock Height="29" Canvas.Left="1099" TextWrapping="Wrap" Text="XX : XX" Canvas.Top="138" Width="145" Foreground="#FFDDDDDD" FontSize="20" TextAlignment="Center"/>
-            <Button x:Name="start_btn" Content="Start" Height="55" Canvas.Left="1087" Canvas.Top="317" Width="160" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD" FontSize="20"/>
-            <Button x:Name="pause_btn" Content="Pause" Height="55" Canvas.Left="1087" Canvas.Top="437" Width="160" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD" FontSize="20"/>
-            <Button x:Name="done_btn" Content="Done" Height="88" Canvas.Left="1087" Canvas.Top="595" Width="160" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD" FontSize="20" Click="done_btn_Click"/>
-            <Button x:Name="Infared" Content="Infared" Height="55" Canvas.Left="1087" Canvas.Top="208" Width="160" BorderBrush="#FFDDDDDD" Foreground="#FFDDDDDD" FontSize="20" Click="BodyJointsButton_Click"/>
-        </Canvas>
-        <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="684" Canvas.Top="218" Margin="163,73,379,233" Background="#7F000000">
-            <Grid Margin="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="350"/>
-                    <RowDefinition Height="100"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" 
-                Style="{StaticResource SubheaderTextBlockStyle}"
-                       Text="Kinect For Windows 2"/>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom">
-                    <TextBlock Text="Kinect Status:  "/>
-                    <TextBlock Text="{Binding StatusText}"/>
-                    <TextBlock Text=", FrameWidth =  "/>
-                    <TextBlock Text=
-                    "{Binding CurrentFrameDescription.Width}"/>
-                    <TextBlock Text=", FrameHeight =  "/>
-                    <TextBlock Text=
-                    "{Binding CurrentFrameDescription.Height}"/>
+    <Grid  >
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:/Assets/bg_workout.jpg" Stretch="Fill"/>
+        </Grid.Background>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}"
+                       Text="LIFT RIGHT"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" 
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <TextBlock Text="Kinect Status:  "/>
+                <TextBlock Text="{Binding StatusText}"/>
+                <TextBlock Text=", FrameWidth =  "/>
+                <TextBlock Text="{Binding CurrentFrameDescription.Width}"/>
+                <TextBlock Text=", FrameHeight =  "/>
+                <TextBlock Text="{Binding CurrentFrameDescription.Height}"/>
+            </StackPanel>
+            <!--...-->
+            
+                <Image x:Name="FrameDisplayImage" Grid.Row="1" Stretch="Uniform"/>
+            
+            <Viewbox Grid.Row="1" HorizontalAlignment="Center">
+                <Border BorderThickness="1" BorderBrush="#FFDDDDDD">
+                <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512" Height="414"/>
+                </Border>
+            </Viewbox>
+           
+            <!--...-->
+            <ScrollViewer Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal">
+                    <Button Click="BodyJointsButton_Click">
+                        <TextBlock Text="Start" TextWrapping="Wrap"/>
+                    </Button>
                 </StackPanel>
-                <Image x:Name="FrameDisplayImage" 
-                Stretch="Uniform" Margin="0,22,0,68" Grid.RowSpan="3"/>
-
-                <Viewbox Grid.Row="1" HorizontalAlignment="Center">
-                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512"  Height="414"/>
-                </Viewbox>
-
-            </Grid>
-        </Border>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 
 </Page>
