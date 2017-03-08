@@ -215,14 +215,13 @@ namespace Project_Lift_Right
                     // add canvas to DisplayGrid
                     this.BodyJointsGrid.Children.Add(this.drawingCanvas);
                     bodiesManager = new BodiesManager(this.coordinateMapper, this.drawingCanvas, this.kinectSensor.BodyFrameSource.BodyCount);
-                    
-                    infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
-                    this.CurrentFrameDescription = infraredFrameDescription;
-                    // allocate space to put the pixels being received and converted
-                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
-                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
-                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
 
+                    colorFrameDescription = this.kinectSensor.ColorFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = colorFrameDescription;
+                    // create the bitmap to display
+                    this.bitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height);
+
+        
 
                     break;
                 default:
@@ -317,12 +316,12 @@ namespace Project_Lift_Right
                     break;*/
                 case DisplayFrameType.BodyJoints:
 
-                    using (infraredFrame = multiSourceFrame.InfraredFrameReference.AcquireFrame())
+                    using (colorFrame = multiSourceFrame.ColorFrameReference.AcquireFrame())
                     {
-                        ShowInfraredFrame(infraredFrame);
+                        ShowColorFrame(colorFrame);
                     }
-                    
-                    
+
+  
                     using (bodyFrame = multiSourceFrame.BodyFrameReference.AcquireFrame())
                     {
                         ShowBodyJoints(bodyFrame);
@@ -366,6 +365,37 @@ namespace Project_Lift_Right
                 this.infraredPixels[colorPixelIndex++] = intensity; //Green
                 this.infraredPixels[colorPixelIndex++] = intensity; //Red
                 this.infraredPixels[colorPixelIndex++] = 255;       //Alpha
+            }
+        }
+
+        private void ShowColorFrame(ColorFrame colorFrame)
+        {
+            bool colorFrameProcessed = false;
+
+            if (colorFrame != null)
+            {
+                FrameDescription colorFrameDescription = colorFrame.FrameDescription;
+
+                // verify data and write the new color frame data to the Writeable bitmap
+                if ((colorFrameDescription.Width == this.bitmap.PixelWidth) && (colorFrameDescription.Height == this.bitmap.PixelHeight))
+                {
+                    if (colorFrame.RawColorImageFormat == ColorImageFormat.Bgra)
+                    {
+                        colorFrame.CopyRawFrameDataToBuffer(this.bitmap.PixelBuffer);
+                    }
+                    else
+                    {
+                        colorFrame.CopyConvertedFrameDataToBuffer(this.bitmap.PixelBuffer, ColorImageFormat.Bgra);
+                    }
+
+                    colorFrameProcessed = true;
+                }
+            }
+
+            if (colorFrameProcessed)
+            {
+                this.bitmap.Invalidate();
+                FrameDisplayImage.Source = this.bitmap;
             }
         }
 
