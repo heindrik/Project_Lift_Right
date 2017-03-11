@@ -11,7 +11,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="ms-appx:/Assets/bg_workout.jpg" Stretch="Fill"/>
         </Grid.Background>
-        <Grid Margin="30">
+        <Grid Margin="10,10,526,165">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
@@ -31,24 +31,23 @@
             <!--...-->
 
             <Image x:Name="FrameDisplayImage" Grid.Row="1" Stretch="Uniform"/>
-
             <Viewbox Grid.Row="1" HorizontalAlignment="Center">
-                <Border BorderThickness="1" BorderBrush="#FFDDDDDD">
-                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="1023" Height="414"/>
-                </Border>
+                <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="1023" Height="414"/>
             </Viewbox>
 
             <!--...-->
             <ScrollViewer Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                          ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="299,0,277,0">
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Horizontal">
                     <Button Click="BodyJointsButton_Click">
                         <TextBlock Text="Start" TextWrapping="Wrap"/>
                     </Button>
                 </StackPanel>
             </ScrollViewer>
-            <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="27,29,0,0" Grid.Row="2" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="210"/>
         </Grid>
+        
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="647" Margin="888,30,0,0" Stroke="Black" VerticalAlignment="Top" Width="420" Opacity="0.7"/>
+        <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="906,51,0,0" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="210"/>
     </Grid>
 
 </Page>
