@@ -29,24 +29,25 @@
                 <TextBlock Text="{Binding CurrentFrameDescription.Height}"/>
             </StackPanel>
             <!--...-->
-            
-                <Image x:Name="FrameDisplayImage" Grid.Row="1" Stretch="Uniform"/>
-            
+
+            <Image x:Name="FrameDisplayImage" Grid.Row="1" Stretch="Uniform"/>
+
             <Viewbox Grid.Row="1" HorizontalAlignment="Center">
                 <Border BorderThickness="1" BorderBrush="#FFDDDDDD">
-                <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512" Height="414"/>
+                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="1023" Height="414"/>
                 </Border>
             </Viewbox>
-           
+
             <!--...-->
             <ScrollViewer Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                          ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="299,0,277,0">
                 <StackPanel Orientation="Horizontal">
                     <Button Click="BodyJointsButton_Click">
                         <TextBlock Text="Start" TextWrapping="Wrap"/>
                     </Button>
                 </StackPanel>
             </ScrollViewer>
+            <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="27,29,0,0" Grid.Row="2" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="210"/>
         </Grid>
     </Grid>
 

@@ -94,10 +94,15 @@ namespace Project_Lift_Right
         private InfraredFrameReader infraredFrameReader = null;
         private ushort[] infraredFrameData = null;
         private byte[] infraredPixels = null;
+
+        //BodyMask Frames
+        private DepthSpacePoint[] colorMappedToDepthPoints = null;
+
         //Body Joints are drawn here
         private Canvas drawingCanvas;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public string StatusText
         {
             get { return this.statusText; }
@@ -174,13 +179,19 @@ namespace Project_Lift_Right
 
 
             this.InitializeComponent();
+
+            //Setup the display on Screen
+            Debug.WriteLine("Starting up the Display\n");
+            SetupCurrentDisplay(DisplayFrameType.BodyJoints);
         }
 
+        // This is called whenever the current display changes.
         private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
         {
             currentDisplayFrameType = newDisplayFrameType;
             // Frames used by more than one type are declared outside the switch
             FrameDescription colorFrameDescription = null;
+
             // reset the display methods
             if (this.BodyJointsGrid != null)
             {
@@ -204,20 +215,25 @@ namespace Project_Lift_Right
                 case DisplayFrameType.BodyJoints:
                     // instantiate a new Canvas
                     this.drawingCanvas = new Canvas();
+
                     // set the clip rectangle to prevent rendering outside the canvas
                     this.drawingCanvas.Clip = new RectangleGeometry();
                     this.drawingCanvas.Clip.Rect = new Rect(0.0, 0.0, this.BodyJointsGrid.Width, this.BodyJointsGrid.Height);
                     this.drawingCanvas.Width = this.BodyJointsGrid.Width;
                     this.drawingCanvas.Height = this.BodyJointsGrid.Height;
+
                     // reset the body joints grid
                     this.BodyJointsGrid.Visibility = Visibility.Visible;
                     this.BodyJointsGrid.Children.Clear();
+
                     // add canvas to DisplayGrid
                     this.BodyJointsGrid.Children.Add(this.drawingCanvas);
                     bodiesManager = new BodiesManager(this.coordinateMapper, this.drawingCanvas, this.kinectSensor.BodyFrameSource.BodyCount);
 
+
                     colorFrameDescription = this.kinectSensor.ColorFrameSource.FrameDescription;
                     this.CurrentFrameDescription = colorFrameDescription;
+
                     // create the bitmap to display
                     this.bitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height);
 
@@ -233,10 +249,31 @@ namespace Project_Lift_Right
         {
             Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
             bool dataReceived = false;
+
             if (bodyFrame != null)
             {
                 bodyFrame.GetAndRefreshBodyData(bodies);
                 dataReceived = true;
+                // analyze the body
+                foreach (var body in bodies)
+                {
+                    if (body != null)
+                    {
+                        // Do something with the body...
+                        if (body.IsTracked)
+                        {
+                            Joint head = body.Joints[JointType.Head];
+
+                            float x = head.Position.X;
+                            float y = head.Position.Y;
+                            float z = head.Position.Z;
+
+                            feedback_textBlock.Text = x.ToString("F");
+
+                            // Draw the joints...
+                        }
+                    }
+                }
             }
 
             if (dataReceived)
@@ -414,11 +451,13 @@ namespace Project_Lift_Right
         private void BodyJointsButton_Click(object sender, RoutedEventArgs e)
         {
             SetupCurrentDisplay(DisplayFrameType.BodyJoints);
+            feedback_textBlock.Text = "Starting";
         }
 
         private void done_btn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Summary), null);
         }
+
     }
 }

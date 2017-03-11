@@ -23,6 +23,7 @@
             <Button x:Name="sel_workout_btn" Content="Select Workout" Height="42" Canvas.Left="680" Canvas.Top="510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="sel_workout_btn_Click"/>
             <TextBlock Height="81" Canvas.Left="530" TextWrapping="Wrap" Text="Lift Right" Canvas.Top="139" Width="320" Foreground="#FFDDDDDD" FontSize="70"/>
             <TextBlock Height="39" Canvas.Left="608" TextWrapping="Wrap" Text="live right" Canvas.Top="225" Width="121" Foreground="#FFDD9900" FontSize="30"/>
+            <Button x:Name="straight_to_workout" Content="Workout Now" Canvas.Left="1076" Canvas.Top="510" Click="straight_to_workout_Click"/>
 
         </Canvas>
     </Grid>
