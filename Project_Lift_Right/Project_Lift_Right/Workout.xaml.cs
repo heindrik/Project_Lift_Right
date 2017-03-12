@@ -25,6 +25,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Project_Lift_Right
 {
+ 
     // display type for reference
     public enum DisplayFrameType
     {
@@ -46,6 +47,7 @@ namespace Project_Lift_Right
         /// It is cast to a float for readability in the visualization code.
         /// </summary>
         private const float InfraredSourceValueMaximum = (float)ushort.MaxValue;
+
 
         /// <summary>
         /// Used to set the lower limit, post processing, of the
@@ -90,6 +92,19 @@ namespace Project_Lift_Right
         private MultiSourceFrameReader multiSourceFrameReader = null;
         private CoordinateMapper coordinateMapper = null;
         private BodiesManager bodiesManager = null;
+
+
+        //
+        public int stopwatch_start;
+        public Stopwatch stopwatch = new Stopwatch();
+        public DateTime stopwatch_end;
+        public string current_state = "NOT_START";
+        public const double START_MIN = 150;
+        public const double START_MAX = 190;
+        public const double END_MAX = 60;
+        public const double END_MIN = 40;
+        public bool timer_started = false;
+
 
         //Infrared Frame 
         private InfraredFrameReader infraredFrameReader = null;
@@ -139,6 +154,7 @@ namespace Project_Lift_Right
 
         public Workout()
         {
+
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
 
@@ -273,11 +289,17 @@ namespace Project_Lift_Right
                             feedback_textBlock.Text = x.ToString("F");
                              */
                             //left arm
+
+                            // Weightlifter Tracker Engine
                             Vector3 left_Wrist = new Vector3(body.Joints[JointType.WristLeft].Position.X, body.Joints[JointType.WristLeft].Position.Y, body.Joints[JointType.WristLeft].Position.Z);
                             Vector3 left_Elbow = new Vector3(body.Joints[JointType.ElbowLeft].Position.X, body.Joints[JointType.ElbowLeft].Position.Y, body.Joints[JointType.ElbowLeft].Position.Z);
                             Vector3 left_Shoulder = new Vector3(body.Joints[JointType.ShoulderLeft].Position.X, body.Joints[JointType.ShoulderLeft].Position.Y, body.Joints[JointType.ShoulderLeft].Position.Z);
 
                             double left_arm = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Elbow, left_Wrist));
+                            if (left_arm > 180)
+                            {
+                                left_arm = 360 - left_arm;
+                            }
                             left_value_textBlock.Text = left_arm.ToString("F");
 
                             //right arm
@@ -285,11 +307,52 @@ namespace Project_Lift_Right
                             Vector3 right_Elbow = new Vector3(body.Joints[JointType.ElbowRight].Position.X, body.Joints[JointType.ElbowRight].Position.Y, body.Joints[JointType.ElbowRight].Position.Z);
                             Vector3 right_Shoulder = new Vector3(body.Joints[JointType.ShoulderRight].Position.X, body.Joints[JointType.ShoulderRight].Position.Y, body.Joints[JointType.ShoulderRight].Position.Z);
 
-                            double right_arm = 360 - Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+                            double right_arm = Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+                            if (right_arm > 180) {
+                                right_arm = 360 - right_arm;
+                            }
                             right_value_textBlock.Text = right_arm.ToString("F");
+                            feedback_textBlock.Text = current_state;
 
 
-                            // Draw the joints...
+                            if (current_state == "NOT_START")
+                            {
+                                //Debug.WriteLine("NOT_START\n");
+                                // if successful, we are in the start range
+                                if (In_Range(START_MIN, START_MAX, left_arm))
+                                {
+                                    //Debug.WriteLine("TIMER SET");
+                                    // check if timer is set, if then set it.
+                                    if (timer_started)
+                                    {
+                                        //Debug.WriteLine("CALCULATING TIMER");
+                                        //calculate the time, then if past two seconds change stare to START_PULLUP
+                                        DateTime dateTime = new DateTime();
+                                        int curr_time = dateTime.Millisecond;
+
+                                        //stopwatch.Stop();
+                                        long elapsed_time = stopwatch.ElapsedMilliseconds;
+                                        Debug.WriteLine(elapsed_time);
+                                        if (elapsed_time > 2000)
+                                        {
+                                            Debug.WriteLine("TIMER: " + elapsed_time);
+                                            current_state = "START_PULLUP";
+                                            stopwatch.Stop();
+                                        }
+
+                                    }
+                                    else if (!timer_started)
+                                    {
+                                        //Debug.WriteLine("Starting Timer");
+                                        // timer hasn't started so set the time
+                                        timer_started = true;
+                                        DateTime my_datetime = new DateTime();
+                                        stopwatch_start = my_datetime.Millisecond;
+                                        stopwatch.Start();
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -478,6 +541,20 @@ namespace Project_Lift_Right
             this.Frame.Navigate(typeof(Summary), null);
         }
 
+        // MARK - HELPER FUNCTIONS
+        private bool CompareAngles(double current_angle, double expected_angle, double error_factor)
+        {
+            return (current_angle >= expected_angle - error_factor && current_angle <= expected_angle + error_factor);
+        }
+
+        private bool In_Range(double start_range, double end_range, double angle)
+        {
+            if (angle < end_range && angle > start_range)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
     }
