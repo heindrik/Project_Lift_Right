@@ -94,16 +94,20 @@ namespace Project_Lift_Right
         private BodiesManager bodiesManager = null;
 
 
-        //
+        // team 583 constants
         public int stopwatch_start;
         public Stopwatch stopwatch = new Stopwatch();
-        public DateTime stopwatch_end;
         public string current_state = "NOT_START";
-        public const double START_MIN = 150;
+        public const double START_MIN = 155;
         public const double START_MAX = 190;
-        public const double END_MAX = 60;
-        public const double END_MIN = 40;
+        public const double END_MAX = 50;
+        public const double END_MIN = 0;
+        public const double HALF_ANGLE = 110;
         public bool timer_started = false;
+        public int rep_count = 0;
+        public int failed_rep_count = 0;
+        public int start_hold_time = 5000;
+        public int end_hold_time = 1500;
 
 
         //Infrared Frame 
@@ -197,6 +201,8 @@ namespace Project_Lift_Right
 
             this.InitializeComponent();
 
+           // bigAssCounter.Text = "";
+
             //Setup the display on Screen
             Debug.WriteLine("Starting up the Display\n");
             SetupCurrentDisplay(DisplayFrameType.BodyJoints);
@@ -261,7 +267,7 @@ namespace Project_Lift_Right
                     break;
             }
         }
-
+        // MARK -- Weightlift Tracker Engine
         private void ShowBodyJoints(BodyFrame bodyFrame)
         {
             Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
@@ -275,13 +281,16 @@ namespace Project_Lift_Right
                 // analyze the body
                 foreach (var body in bodies)
                 {
+
                     if (body != null)
                     {
+                        
                         // Do something with the body...
                         if (body.IsTracked)
                         {
+                            
                             /*Joint head = body.Joints[JointType.Head];
-
+                            
                             float x = head.Position.X;
                             float y = head.Position.Y;
                             float z = head.Position.Z;
@@ -317,7 +326,9 @@ namespace Project_Lift_Right
 
                             if (current_state == "NOT_START")
                             {
-                                //Debug.WriteLine("NOT_START\n");
+                                //Debug.WriteLine("NOT_START\nbigAssCounter.Text = "Ready!";
+
+                                message.Text = "Please go to the starting position (PUT YOUR FUCKING ARM DOWN!)";
                                 // if successful, we are in the start range
                                 if (In_Range(START_MIN, START_MAX, left_arm))
                                 {
@@ -327,17 +338,24 @@ namespace Project_Lift_Right
                                     {
                                         //Debug.WriteLine("CALCULATING TIMER");
                                         //calculate the time, then if past two seconds change stare to START_PULLUP
-                                        DateTime dateTime = new DateTime();
-                                        int curr_time = dateTime.Millisecond;
-
                                         //stopwatch.Stop();
-                                        long elapsed_time = stopwatch.ElapsedMilliseconds;
-                                        Debug.WriteLine(elapsed_time);
-                                        if (elapsed_time > 2000)
+                                        long current_time = stopwatch.ElapsedMilliseconds;
+
+                                        if (current_time >= start_hold_time)
                                         {
-                                            Debug.WriteLine("TIMER: " + elapsed_time);
+                                            bigAssCounter.Text = "";
                                             current_state = "START_PULLUP";
+                                            message.Text = "Begin your Curl, pull up as close to the shoulder as possible";
                                             stopwatch.Stop();
+                                            stopwatch.Reset();
+                                            timer_started = false;
+                                        }else
+                                        {
+                                            // if less than the time, show on gui timer.
+                                            long countdown = (start_hold_time - current_time)/1000;
+                                            long temp = (start_hold_time - current_time) % 1000;
+
+                                            bigAssCounter.Text = countdown.ToString()+"."+temp.ToString();
                                         }
 
                                     }
@@ -346,21 +364,98 @@ namespace Project_Lift_Right
                                         //Debug.WriteLine("Starting Timer");
                                         // timer hasn't started so set the time
                                         timer_started = true;
-                                        DateTime my_datetime = new DateTime();
-                                        stopwatch_start = my_datetime.Millisecond;
                                         stopwatch.Start();
                                     }
                                 }
                             }
-                            
+                            else if (current_state == "START_PULLUP"){
+
+                                bigAssCounter.Text = "UP";
+                                //is the arm in hold position?
+                                if (In_Range(END_MIN,END_MAX,left_arm)){
+                                    // yes!
+                                    current_state = "START_HOLD";
+                                    
+                                }
+                            }
+                            else if (current_state == "START_HOLD"){
+                                message.Text = "";
+                                // is the arm still in hold postion?
+                                if (In_Range(END_MIN,END_MAX,left_arm)){
+
+                                    // yes!
+                                    
+                                    if (timer_started){
+                                        long current_time = stopwatch.ElapsedMilliseconds;
+                                        if (current_time >= end_hold_time){
+                                            current_state = "START_PULLDOWN";
+                                            rep_count++;
+                                            bigAssCounter.Text = "";
+                                            stopwatch.Stop();
+                                            stopwatch.Reset();
+                                            timer_started = false;
+                                        }
+                                        else
+                                        {
+                                            long countdown = (end_hold_time - current_time) / 1000;
+                                            long temp = (end_hold_time - current_time) % 1000;
+
+                                            bigAssCounter.Text = countdown.ToString() + "." + temp.ToString();
+                                          
+                                        }
+                                    }
+                                    else{
+                                        timer_started = true;
+                                        stopwatch.Start();
+                                    }
+                                }
+                                else{
+
+
+                                    // no! user pull down too early
+                                    
+                                    stopwatch.Stop();
+                                    stopwatch.Reset();
+                                    timer_started = false;
+                                    bigAssCounter.Text = ":(";
+                                    message.Text = "You pulled down too early! Pull up again!";
+                                    // is the arm angle below half?
+                                    if(left_arm > HALF_ANGLE){
+                                        failed_rep_count++;
+                                        // yes, he is giving up the rap
+                                        current_state = "NOT_START";
+                                    }
+                                    else{
+
+                                        // no, he is still trying to go back
+                                        // do nothing
+                                    }
+                                }
+                            }
+                            else if (current_state == "START_PULLDOWN"){
+                                bigAssCounter.Text = "DOWN";
+                                message.Text = "You may now start going down?";
+                                if(In_Range(START_MIN,START_MAX,left_arm)){
+                                    current_state = "DONE";
+                                }
+
+                            }
+                            else if (current_state == "DONE"){
+                                message.Text = "Yup, that's it you motherfucker";
+                                
+                                start_hold_time = 1000;
+                                current_state = "NOT_START";
+                            }
                         }
                     }
+
                 }
             }
-
             if (dataReceived)
             {
                 this.bodiesManager.UpdateBodiesAndEdges(bodies);
+                rep_counter_value.Text = rep_count.ToString();
+                failed_rep_counter_value.Text = failed_rep_count.ToString();
             }
         }
 
@@ -556,6 +651,9 @@ namespace Project_Lift_Right
             return false;
         }
 
-
+        private void finish_btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage), null);
+        }
     }
 }
