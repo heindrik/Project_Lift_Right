@@ -330,12 +330,12 @@ namespace Project_Lift_Right
                                         //stopwatch.Stop();
                                         long current_time = stopwatch.ElapsedMilliseconds;
                                         Debug.WriteLine(current_time);
-                                        if (elapsed_time > 2000)
+                                        if (current_time > 2000)
                                         {
                                             Debug.WriteLine("TIMER: " + current_time);
-                                            current_state = 'START_PULLUP';
+                                            current_state = "START_PULLUP";
                                             stopwatch.Stop();
-                                            Stopwatch.reset();
+                                            stopwatch.Reset();
                                             timer_started = false;
                                         }
 
@@ -349,15 +349,15 @@ namespace Project_Lift_Right
                                     }
                                 }
                             }
-                            else if (current_state == 'START_PULLUP'){
+                            else if (current_state == "START_PULLUP"){
 
                                 //is the arm in hold position?
                                 if(In_Range(END_MIN,END_MAX,left_arm)){
                                     // yes!
-                                    current_state = 'START_HOLD';
+                                    current_state = "START_HOLD";
                                 }
                             }
-                            else if (current_state == 'START_HOLD'){
+                            else if (current_state == "START_HOLD"){
 
                                 // is the arm still in hold postion?
                                 if(In_Range(END_MIN,END_MAX,left_arm)){
@@ -367,29 +367,30 @@ namespace Project_Lift_Right
                                     if(timer_started){
                                         long current_time = stopwatch.ElapsedMilliseconds;
                                         if(current_time > 2000){
-                                            current_state = 'START_PULLDOWN';
-                                            stopwatch.stop();
-                                            Stopwatch.reset();
+                                            current_state = "START_PULLDOWN";
+                                            stopwatch.Stop();
+                                            stopwatch.Reset();
                                             timer_started = false;
                                         }
                                     }
                                     else{
                                         timer_started = true;
-                                        stopwatch.start();
+                                        stopwatch.Start();
                                     }
                                 }
                                 else{
 
 
                                     // no! user pull down too early
-                                    stopwatch.stop();
-                                    Stopwatch.reset();
+                                    stopwatch.Stop();
+                                    stopwatch.Reset();
+                                    timer_started = false;
                                     
                                     // is the arm angle below half?
-                                    if(leff_arm > HALF_ANGLE){
+                                    if(left_arm > HALF_ANGLE){
 
                                         // yes, he is giving up the rap
-                                        current_state = 'NOT_START'；
+                                        current_state = "NOT_START";
                                     }
                                     else{
 
@@ -398,14 +399,14 @@ namespace Project_Lift_Right
                                     }
                                 }
                             }
-                            else if (current_state == 'START_PULLDOWN'){
+                            else if (current_state == "START_PULLDOWN"){
 
-                                if(In_Range(START_MIN,START_MAX,leff_arm)){
-                                    current_state = 'DONE';
+                                if(In_Range(START_MIN,START_MAX,left_arm)){
+                                    current_state = "DONE";
                                 }
 
                             }
-                            else if (current_state == 'DONE'){}
+                            else if (current_state == "DONE"){}
                         }
                     }
                 }
