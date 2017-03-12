@@ -7,51 +7,68 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid  >
+    <Grid RenderTransformOrigin="0.5,0.5"  >
+        <Grid.RenderTransform>
+            <CompositeTransform/>
+        </Grid.RenderTransform>
         <Grid.Background>
             <ImageBrush ImageSource="ms-appx:/Assets/bg_workout.jpg" Stretch="Fill"/>
         </Grid.Background>
-        <Grid Margin="10,10,526,165">
+
+        <Grid Margin="-282,-47,478,153">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Style="{StaticResource SubheaderTextBlockStyle}"
-                       Text="LIFT RIGHT"/>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" 
+            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource SubheaderTextBlockStyle}"
+                       Text="LIFT RIGHT" />
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" 
                         HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <TextBlock Text="Kinect Status:  "/>
+                <TextBlock Text=""/>
                 <TextBlock Text="{Binding StatusText}"/>
-                <TextBlock Text=", FrameWidth =  "/>
+                <TextBlock Text=""/>
                 <TextBlock Text="{Binding CurrentFrameDescription.Width}"/>
-                <TextBlock Text=", FrameHeight =  "/>
+                <TextBlock Text=""/>
                 <TextBlock Text="{Binding CurrentFrameDescription.Height}"/>
             </StackPanel>
             <!--...-->
 
-            <Image x:Name="FrameDisplayImage" Grid.Row="1" Stretch="Uniform"/>
-            <Viewbox Grid.Row="1" HorizontalAlignment="Center">
-                <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="1023" Height="414"/>
+            <Image x:Name="FrameDisplayImage" Grid.Row="1"  Grid.Column="0" Stretch="Uniform"/>
+
+            <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
+                <Border BorderThickness="1" BorderBrush="#FFDDDDDD">
+                    <Grid x:Name="BodyJointsGrid" Background="Transparent" Width="512" Height="414"/>
+                </Border>
             </Viewbox>
 
             <!--...-->
-            <ScrollViewer Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+            <ScrollViewer Grid.Row="2" Grid.Column="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                           ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Horizontal">
-                    <Button Click="BodyJointsButton_Click">
-                        <TextBlock Text="Start" TextWrapping="Wrap"/>
-                    </Button>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-        
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="647" Margin="888,30,0,0" Stroke="Black" VerticalAlignment="Top" Width="420" Opacity="0.7"/>
-        <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="922,530,0,0" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="210"/>
-        <TextBlock x:Name="right_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="1123,140,0,0" TextWrapping="Wrap" Text="Right Arm" VerticalAlignment="Top"/>
-        <TextBlock x:Name="left_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="941,140,0,0" TextWrapping="Wrap" Text="Left Arm" VerticalAlignment="Top"/>
-        <TextBlock x:Name="left_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="941,212,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
-        <TextBlock x:Name="right_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="1123,212,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
-    </Grid>
 
+            </ScrollViewer>
+
+
+        </Grid>
+
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="715" Margin="617,23,0,0" Stroke="Black" VerticalAlignment="Top" Width="739"/>
+        <Rectangle Fill="Black" Height="214" Stroke="Black" Margin="10,524,590,30"/>
+        <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="268,549,0,0" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="387"/>
+        <TextBlock x:Name="message" FontSize="40" HorizontalAlignment="Left" Margin="268,615,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="101" Width="985" RenderTransformOrigin="1.897,0.364"/>
+        <TextBlock x:Name="right_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="992,57,0,0" TextWrapping="Wrap" Text="Right Arm" VerticalAlignment="Top"/>
+        <TextBlock x:Name="left_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="745,57,0,0" TextWrapping="Wrap" Text="Left Arm" VerticalAlignment="Top"/>
+        <TextBlock x:Name="left_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="745,98,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
+        <TextBlock x:Name="right_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="992,98,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="139,549,0,0" FontSize="30" TextWrapping="Wrap" Text="State:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,615,0,0" FontSize="50" TextWrapping="Wrap" Text="Feedback:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="bigAssCounter" HorizontalAlignment="Left" FontSize="100"  Margin="745,215,0,0" TextWrapping="Wrap" Text="Loading..." VerticalAlignment="Top" Width="551"/>
+        <TextBlock x:Name="rep_counter_label" HorizontalAlignment="Left" FontSize="20" Margin="737,448,0,0" TextWrapping="Wrap" Text="Rep Count:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="rep_counter_label_Copy" HorizontalAlignment="Left" FontSize="20" Margin="737,495,0,0" TextWrapping="Wrap" Text="Failed Rep Count:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="rep_counter_value" HorizontalAlignment="Left" FontSize="20" Margin="936,448,0,0" TextWrapping="Wrap" Text="-------" VerticalAlignment="Top" Height="24"/>
+        <TextBlock x:Name="failed_rep_counter_value" HorizontalAlignment="Left" FontSize="20" Margin="936,495,0,0" TextWrapping="Wrap" Text="-------" VerticalAlignment="Top" Height="24"/>
+        <Button x:Name="finish_btn" Content="Done" HorizontalAlignment="Left" Margin="1129,441,0,0" VerticalAlignment="Top" Height="81" Width="170" Click="finish_btn_Click"/>
+
+
+
+    </Grid>
 </Page>
