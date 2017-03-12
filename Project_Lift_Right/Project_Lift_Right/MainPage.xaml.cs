@@ -44,6 +44,10 @@ namespace Project_Lift_Right
             this.Frame.Navigate(typeof(SelectWorkout), null);
         }
 
+        private void straight_to_workout_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Workout), null);
+        }
     }
     //Hello
 }

@@ -19,10 +19,11 @@
                 <ComboBoxItem>Choose Profile...</ComboBoxItem>
                 <ComboBoxItem>Profile 1</ComboBoxItem>
             </ComboBox>
-            <Button x:Name="new_user_btn" Content="New User" Height="42" Canvas.Left="483" Canvas.Top="510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="new_user_btn_Click" />
-            <Button x:Name="sel_workout_btn" Content="Select Workout" Height="42" Canvas.Left="680" Canvas.Top="510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="sel_workout_btn_Click"/>
+            <Button x:Name="new_user_btn" Content="New User" Height="42" Canvas.Left="483" Canvas.Top="6666510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="new_user_btn_Click" />
+            <Button x:Name="sel_workout_btn" Content="Select Workout" Height="42" Canvas.Left="680" Canvas.Top="6666510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="sel_workout_btn_Click"/>
             <TextBlock Height="81" Canvas.Left="530" TextWrapping="Wrap" Text="Lift Right" Canvas.Top="139" Width="320" Foreground="#FFDDDDDD" FontSize="70"/>
             <TextBlock Height="39" Canvas.Left="608" TextWrapping="Wrap" Text="live right" Canvas.Top="225" Width="121" Foreground="#FFDD9900" FontSize="30"/>
+            <Button x:Name="straight_to_workout" Content="Workout Now" Canvas.Left="605" Canvas.Top="490" Click="straight_to_workout_Click" RenderTransformOrigin="-4.264,3.059"/>
 
         </Canvas>
     </Grid>

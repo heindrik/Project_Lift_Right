@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Windows.UI.Xaml.Shapes;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Project_Lift_Right
@@ -94,10 +95,15 @@ namespace Project_Lift_Right
         private InfraredFrameReader infraredFrameReader = null;
         private ushort[] infraredFrameData = null;
         private byte[] infraredPixels = null;
+
+        //BodyMask Frames
+        private DepthSpacePoint[] colorMappedToDepthPoints = null;
+
         //Body Joints are drawn here
         private Canvas drawingCanvas;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public string StatusText
         {
             get { return this.statusText; }
@@ -174,13 +180,19 @@ namespace Project_Lift_Right
 
 
             this.InitializeComponent();
+
+            //Setup the display on Screen
+            Debug.WriteLine("Starting up the Display\n");
+            SetupCurrentDisplay(DisplayFrameType.BodyJoints);
         }
 
+        // This is called whenever the current display changes.
         private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
         {
             currentDisplayFrameType = newDisplayFrameType;
             // Frames used by more than one type are declared outside the switch
             FrameDescription colorFrameDescription = null;
+
             // reset the display methods
             if (this.BodyJointsGrid != null)
             {
@@ -204,25 +216,29 @@ namespace Project_Lift_Right
                 case DisplayFrameType.BodyJoints:
                     // instantiate a new Canvas
                     this.drawingCanvas = new Canvas();
+
                     // set the clip rectangle to prevent rendering outside the canvas
                     this.drawingCanvas.Clip = new RectangleGeometry();
                     this.drawingCanvas.Clip.Rect = new Rect(0.0, 0.0, this.BodyJointsGrid.Width, this.BodyJointsGrid.Height);
                     this.drawingCanvas.Width = this.BodyJointsGrid.Width;
                     this.drawingCanvas.Height = this.BodyJointsGrid.Height;
+
                     // reset the body joints grid
                     this.BodyJointsGrid.Visibility = Visibility.Visible;
                     this.BodyJointsGrid.Children.Clear();
+
                     // add canvas to DisplayGrid
                     this.BodyJointsGrid.Children.Add(this.drawingCanvas);
                     bodiesManager = new BodiesManager(this.coordinateMapper, this.drawingCanvas, this.kinectSensor.BodyFrameSource.BodyCount);
-                    
-                    infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
-                    this.CurrentFrameDescription = infraredFrameDescription;
-                    // allocate space to put the pixels being received and converted
-                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
-                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
-                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
 
+
+                    colorFrameDescription = this.kinectSensor.ColorFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = colorFrameDescription;
+
+                    // create the bitmap to display
+                    this.bitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height);
+
+        
 
                     break;
                 default:
@@ -234,10 +250,49 @@ namespace Project_Lift_Right
         {
             Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
             bool dataReceived = false;
+           
+
             if (bodyFrame != null)
             {
                 bodyFrame.GetAndRefreshBodyData(bodies);
                 dataReceived = true;
+                // analyze the body
+                foreach (var body in bodies)
+                {
+                    if (body != null)
+                    {
+                        // Do something with the body...
+                        if (body.IsTracked)
+                        {
+                            /*Joint head = body.Joints[JointType.Head];
+
+                            float x = head.Position.X;
+                            float y = head.Position.Y;
+                            float z = head.Position.Z;
+
+                            feedback_textBlock.Text = x.ToString("F");
+                             */
+                            //left arm
+                            Vector3 left_Wrist = new Vector3(body.Joints[JointType.WristLeft].Position.X, body.Joints[JointType.WristLeft].Position.Y, body.Joints[JointType.WristLeft].Position.Z);
+                            Vector3 left_Elbow = new Vector3(body.Joints[JointType.ElbowLeft].Position.X, body.Joints[JointType.ElbowLeft].Position.Y, body.Joints[JointType.ElbowLeft].Position.Z);
+                            Vector3 left_Shoulder = new Vector3(body.Joints[JointType.ShoulderLeft].Position.X, body.Joints[JointType.ShoulderLeft].Position.Y, body.Joints[JointType.ShoulderLeft].Position.Z);
+
+                            double left_arm = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Elbow, left_Wrist));
+                            feedback_textBlock.Text = left_arm.ToString("F");
+
+                            //right arm
+                            Vector3 right_Wrist = new Vector3(body.Joints[JointType.WristRight].Position.X, body.Joints[JointType.WristRight].Position.Y, body.Joints[JointType.WristRight].Position.Z);
+                            Vector3 right_Elbow = new Vector3(body.Joints[JointType.ElbowRight].Position.X, body.Joints[JointType.ElbowRight].Position.Y, body.Joints[JointType.ElbowRight].Position.Z);
+                            Vector3 right_Shoulder = new Vector3(body.Joints[JointType.ShoulderRight].Position.X, body.Joints[JointType.ShoulderRight].Position.Y, body.Joints[JointType.ShoulderRight].Position.Z);
+
+                            double right_arm = Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+
+
+
+                            // Draw the joints...
+                        }
+                    }
+                }
             }
 
             if (dataReceived)
@@ -317,12 +372,12 @@ namespace Project_Lift_Right
                     break;*/
                 case DisplayFrameType.BodyJoints:
 
-                    using (infraredFrame = multiSourceFrame.InfraredFrameReference.AcquireFrame())
+                    using (colorFrame = multiSourceFrame.ColorFrameReference.AcquireFrame())
                     {
-                        ShowInfraredFrame(infraredFrame);
+                        ShowColorFrame(colorFrame);
                     }
-                    
-                    
+
+  
                     using (bodyFrame = multiSourceFrame.BodyFrameReference.AcquireFrame())
                     {
                         ShowBodyJoints(bodyFrame);
@@ -369,6 +424,37 @@ namespace Project_Lift_Right
             }
         }
 
+        private void ShowColorFrame(ColorFrame colorFrame)
+        {
+            bool colorFrameProcessed = false;
+
+            if (colorFrame != null)
+            {
+                FrameDescription colorFrameDescription = colorFrame.FrameDescription;
+
+                // verify data and write the new color frame data to the Writeable bitmap
+                if ((colorFrameDescription.Width == this.bitmap.PixelWidth) && (colorFrameDescription.Height == this.bitmap.PixelHeight))
+                {
+                    if (colorFrame.RawColorImageFormat == ColorImageFormat.Bgra)
+                    {
+                        colorFrame.CopyRawFrameDataToBuffer(this.bitmap.PixelBuffer);
+                    }
+                    else
+                    {
+                        colorFrame.CopyConvertedFrameDataToBuffer(this.bitmap.PixelBuffer, ColorImageFormat.Bgra);
+                    }
+
+                    colorFrameProcessed = true;
+                }
+            }
+
+            if (colorFrameProcessed)
+            {
+                this.bitmap.Invalidate();
+                FrameDisplayImage.Source = this.bitmap;
+            }
+        }
+
         private void RenderPixelArray(byte[] pixels)
         {
             pixels.CopyTo(this.bitmap.PixelBuffer);
@@ -384,11 +470,15 @@ namespace Project_Lift_Right
         private void BodyJointsButton_Click(object sender, RoutedEventArgs e)
         {
             SetupCurrentDisplay(DisplayFrameType.BodyJoints);
+            feedback_textBlock.Text = "Starting";
         }
 
         private void done_btn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Summary), null);
         }
+
+
+
     }
 }
