@@ -48,6 +48,10 @@
         
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="647" Margin="888,30,0,0" Stroke="Black" VerticalAlignment="Top" Width="420" Opacity="0.7"/>
         <TextBlock x:Name="feedback_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="906,51,0,0" TextWrapping="Wrap" Text="FEEDBACK" VerticalAlignment="Top" Height="42" Width="210"/>
+        <TextBlock x:Name="right_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="1123,140,0,0" TextWrapping="Wrap" Text="Right Arm" VerticalAlignment="Top"/>
+        <TextBlock x:Name="left_label_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="941,140,0,0" TextWrapping="Wrap" Text="Left Arm" VerticalAlignment="Top"/>
+        <TextBlock x:Name="left_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="941,212,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
+        <TextBlock x:Name="right_value_textBlock" FontSize="30" HorizontalAlignment="Left" Margin="1123,212,0,0" TextWrapping="Wrap" Text="No Value" VerticalAlignment="Top"/>
     </Grid>
 
 </Page>

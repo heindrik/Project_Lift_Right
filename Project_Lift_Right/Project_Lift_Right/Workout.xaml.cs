@@ -278,15 +278,15 @@ namespace Project_Lift_Right
                             Vector3 left_Shoulder = new Vector3(body.Joints[JointType.ShoulderLeft].Position.X, body.Joints[JointType.ShoulderLeft].Position.Y, body.Joints[JointType.ShoulderLeft].Position.Z);
 
                             double left_arm = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Elbow, left_Wrist));
-                            feedback_textBlock.Text = left_arm.ToString("F");
+                            left_value_textBlock.Text = left_arm.ToString("F");
 
                             //right arm
                             Vector3 right_Wrist = new Vector3(body.Joints[JointType.WristRight].Position.X, body.Joints[JointType.WristRight].Position.Y, body.Joints[JointType.WristRight].Position.Z);
                             Vector3 right_Elbow = new Vector3(body.Joints[JointType.ElbowRight].Position.X, body.Joints[JointType.ElbowRight].Position.Y, body.Joints[JointType.ElbowRight].Position.Z);
                             Vector3 right_Shoulder = new Vector3(body.Joints[JointType.ShoulderRight].Position.X, body.Joints[JointType.ShoulderRight].Position.Y, body.Joints[JointType.ShoulderRight].Position.Z);
 
-                            double right_arm = Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
-
+                            double right_arm = 360 - Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+                            right_value_textBlock.Text = right_arm.ToString("F");
 
 
                             // Draw the joints...
