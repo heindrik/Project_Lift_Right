@@ -97,12 +97,12 @@ namespace Project_Lift_Right
         //
         public int stopwatch_start;
         public Stopwatch stopwatch = new Stopwatch();
-        public DateTime stopwatch_end;
         public string current_state = "NOT_START";
         public const double START_MIN = 150;
         public const double START_MAX = 190;
         public const double END_MAX = 60;
         public const double END_MIN = 40;
+        public const double HALF_ANGLE = 110;
         public bool timer_started = false;
 
 
@@ -327,17 +327,16 @@ namespace Project_Lift_Right
                                     {
                                         //Debug.WriteLine("CALCULATING TIMER");
                                         //calculate the time, then if past two seconds change stare to START_PULLUP
-                                        DateTime dateTime = new DateTime();
-                                        int curr_time = dateTime.Millisecond;
-
                                         //stopwatch.Stop();
-                                        long elapsed_time = stopwatch.ElapsedMilliseconds;
-                                        Debug.WriteLine(elapsed_time);
+                                        long current_time = stopwatch.ElapsedMilliseconds;
+                                        Debug.WriteLine(current_time);
                                         if (elapsed_time > 2000)
                                         {
-                                            Debug.WriteLine("TIMER: " + elapsed_time);
-                                            current_state = "START_PULLUP";
+                                            Debug.WriteLine("TIMER: " + current_time);
+                                            current_state = 'START_PULLUP';
                                             stopwatch.Stop();
+                                            Stopwatch.reset();
+                                            timer_started = false;
                                         }
 
                                     }
@@ -346,13 +345,67 @@ namespace Project_Lift_Right
                                         //Debug.WriteLine("Starting Timer");
                                         // timer hasn't started so set the time
                                         timer_started = true;
-                                        DateTime my_datetime = new DateTime();
-                                        stopwatch_start = my_datetime.Millisecond;
                                         stopwatch.Start();
                                     }
                                 }
                             }
-                            
+                            else if (current_state == 'START_PULLUP'){
+
+                                //is the arm in hold position?
+                                if(In_Range(END_MIN,END_MAX,left_arm)){
+                                    // yes!
+                                    current_state = 'START_HOLD';
+                                }
+                            }
+                            else if (current_state == 'START_HOLD'){
+
+                                // is the arm still in hold postion?
+                                if(In_Range(END_MIN,END_MAX,left_arm)){
+
+                                    // yes!
+
+                                    if(timer_started){
+                                        long current_time = stopwatch.ElapsedMilliseconds;
+                                        if(current_time > 2000){
+                                            current_state = 'START_PULLDOWN';
+                                            stopwatch.stop();
+                                            Stopwatch.reset();
+                                            timer_started = false;
+                                        }
+                                    }
+                                    else{
+                                        timer_started = true;
+                                        stopwatch.start();
+                                    }
+                                }
+                                else{
+
+
+                                    // no! user pull down too early
+                                    stopwatch.stop();
+                                    Stopwatch.reset();
+                                    
+                                    // is the arm angle below half?
+                                    if(leff_arm > HALF_ANGLE){
+
+                                        // yes, he is giving up the rap
+                                        current_state = 'NOT_START'；
+                                    }
+                                    else{
+
+                                        // no, he is still trying to go back
+                                        // do nothing
+                                    }
+                                }
+                            }
+                            else if (current_state == 'START_PULLDOWN'){
+
+                                if(In_Range(START_MIN,START_MAX,leff_arm)){
+                                    current_state = 'DONE';
+                                }
+
+                            }
+                            else if (current_state == 'DONE'){}
                         }
                     }
                 }
