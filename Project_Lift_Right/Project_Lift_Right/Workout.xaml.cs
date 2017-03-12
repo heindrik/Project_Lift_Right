@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Windows.UI.Xaml.Shapes;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Project_Lift_Right
@@ -263,13 +264,30 @@ namespace Project_Lift_Right
                         // Do something with the body...
                         if (body.IsTracked)
                         {
-                            Joint head = body.Joints[JointType.Head];
+                            /*Joint head = body.Joints[JointType.Head];
 
                             float x = head.Position.X;
                             float y = head.Position.Y;
                             float z = head.Position.Z;
 
                             feedback_textBlock.Text = x.ToString("F");
+                             */
+                            //left arm
+                            Vector3 left_Wrist = new Vector3(body.Joints[JointType.WristLeft].Position.X, body.Joints[JointType.WristLeft].Position.Y, body.Joints[JointType.WristLeft].Position.Z);
+                            Vector3 left_Elbow = new Vector3(body.Joints[JointType.ElbowLeft].Position.X, body.Joints[JointType.ElbowLeft].Position.Y, body.Joints[JointType.ElbowLeft].Position.Z);
+                            Vector3 left_Shoulder = new Vector3(body.Joints[JointType.ShoulderLeft].Position.X, body.Joints[JointType.ShoulderLeft].Position.Y, body.Joints[JointType.ShoulderLeft].Position.Z);
+
+                            double left_arm = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Elbow, left_Wrist));
+                            feedback_textBlock.Text = left_arm.ToString("F");
+
+                            //right arm
+                            Vector3 right_Wrist = new Vector3(body.Joints[JointType.WristRight].Position.X, body.Joints[JointType.WristRight].Position.Y, body.Joints[JointType.WristRight].Position.Z);
+                            Vector3 right_Elbow = new Vector3(body.Joints[JointType.ElbowRight].Position.X, body.Joints[JointType.ElbowRight].Position.Y, body.Joints[JointType.ElbowRight].Position.Z);
+                            Vector3 right_Shoulder = new Vector3(body.Joints[JointType.ShoulderRight].Position.X, body.Joints[JointType.ShoulderRight].Position.Y, body.Joints[JointType.ShoulderRight].Position.Z);
+
+                            double right_arm = Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+
+
 
                             // Draw the joints...
                         }
@@ -459,6 +477,8 @@ namespace Project_Lift_Right
         {
             this.Frame.Navigate(typeof(Summary), null);
         }
+
+
 
     }
 }
