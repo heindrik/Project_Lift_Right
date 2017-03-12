@@ -250,6 +250,7 @@ namespace Project_Lift_Right
         {
             Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
             bool dataReceived = false;
+           
 
             if (bodyFrame != null)
             {
