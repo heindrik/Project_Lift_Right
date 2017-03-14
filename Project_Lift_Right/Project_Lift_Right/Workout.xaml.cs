@@ -103,8 +103,8 @@ namespace Project_Lift_Right
         public const double END_MAX = 50;
         public const double END_MIN = 0;
         public const double HALF_ANGLE = 110;
-        public const doubble ELBOW_MAX = 45;
-        public const doubble ELBOW_MIN = 0;
+        public const double ELBOW_MAX = 42;
+        public const double ELBOW_MIN = 0;
         public bool timer_started = false;
         public int rep_count = 0;
         public int failed_rep_count = 0;
@@ -307,11 +307,15 @@ namespace Project_Lift_Right
                             Vector3 left_Elbow = new Vector3(body.Joints[JointType.ElbowLeft].Position.X, body.Joints[JointType.ElbowLeft].Position.Y, body.Joints[JointType.ElbowLeft].Position.Z);
                             Vector3 left_Shoulder = new Vector3(body.Joints[JointType.ShoulderLeft].Position.X, body.Joints[JointType.ShoulderLeft].Position.Y, body.Joints[JointType.ShoulderLeft].Position.Z);
                             Vector3 spine_mid = new Vector3(body.Joints[JointType.SpineMid].Position.X, body.Joints[JointType.SpineMid].Position.Y, body.Joints[JointType.SpineMid].Position.Z);
+                            Vector3 neck = new Vector3(body.Joints[JointType.SpineShoulder].Position.X, body.Joints[JointType.SpineShoulder].Position.Y, body.Joints[JointType.SpineShoulder].Position.Z);
 
 
                             double left_arm = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Elbow, left_Wrist));
-                            double elbow_down = Vector3.Angle(Vector3.Subtract(left_Elbow, left_Shoulder), Vector3.Subtract(left_Shoulder, spine_mid));
-                            
+                            double elbow_down = Vector3.Angle(Vector3.Subtract(neck, left_Elbow), Vector3.Subtract(neck, spine_mid));
+                            if (elbow_down > 180)
+                            {
+                                elbow_down = 360 - elbow_down;
+                            }
                             if (left_arm > 180)
                             {
                                 left_arm = 360 - left_arm;
@@ -329,7 +333,8 @@ namespace Project_Lift_Right
                             }
                             right_value_textBlock.Text = right_arm.ToString("F");
                             feedback_textBlock.Text = current_state;
-
+                            Debug.WriteLine(elbow_down);
+                      
 
                             if (current_state == "NOT_START")
                             {
