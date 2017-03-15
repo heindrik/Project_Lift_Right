@@ -9,22 +9,30 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush Stretch="Fill" ImageSource="Assets/Logo.png"/>
+            <ImageBrush Stretch="Fill" ImageSource="Assets/bg_welcome_page.jpg"/>
         </Grid.Background>
-        <Canvas x:Name="main_canvas" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="1366">
-            <Canvas.Background>
-                <ImageBrush Stretch="Fill" ImageSource="Assets/bg_welcome_page.jpg"/>
-            </Canvas.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+            <!--
             <ComboBox x:Name="profile_select" Height="72" Canvas.Left="421" Canvas.Top="342" Width="511" BorderBrush="#FF27475D" SelectionChanged="profile_select_SelectionChanged" SelectedIndex="0" Background="#CC23456C" Foreground="#FFDDDDDD" >
                 <ComboBoxItem>Choose Profile...</ComboBoxItem>
                 <ComboBoxItem>Profile 1</ComboBoxItem>
             </ComboBox>
             <Button x:Name="new_user_btn" Content="New User" Height="42" Canvas.Left="483" Canvas.Top="6666510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="new_user_btn_Click" />
             <Button x:Name="sel_workout_btn" Content="Select Workout" Height="42" Canvas.Left="680" Canvas.Top="6666510" Width="158" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" Click="sel_workout_btn_Click"/>
-            <TextBlock Height="81" Canvas.Left="530" TextWrapping="Wrap" Text="Lift Right" Canvas.Top="139" Width="320" Foreground="#FFDDDDDD" FontSize="70"/>
-            <TextBlock Height="39" Canvas.Left="608" TextWrapping="Wrap" Text="live right" Canvas.Top="225" Width="121" Foreground="#FFDD9900" FontSize="30"/>
-            <Button x:Name="straight_to_workout" Content="Workout Now" Canvas.Left="605" Canvas.Top="490" Click="straight_to_workout_Click" RenderTransformOrigin="-4.264,3.059"/>
+             -->
 
-        </Canvas>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,200,0,0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,0" Text="Lift Right" HorizontalAlignment="Center" Foreground="#FFDDDDDD" FontSize="70"/>
+            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0" Text="live right" Canvas.Top="225" Width="121" Foreground="#FFDD9900" FontSize="30"/>
+            <Button x:Name="straight_to_workout" Margin="0,200,0,0" Width="200" FontSize="20" Height="100" Content="Workout Now" HorizontalAlignment="Center" Click="straight_to_workout_Click" />
+        </StackPanel>
+
+        
+
     </Grid>
 </Page>
