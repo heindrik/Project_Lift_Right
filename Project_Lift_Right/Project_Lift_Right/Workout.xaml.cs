@@ -108,7 +108,7 @@ namespace Project_Lift_Right
         public bool timer_started = false;
         public int rep_count = 0;
         public int failed_rep_count = 0;
-        public int start_hold_time = 5000;
+        public int start_hold_time = 3000;
         public int end_hold_time = 1500;
         
 
@@ -371,7 +371,7 @@ namespace Project_Lift_Right
                                             {
                                                 bigAssCounter.Text = "";
                                                 current_state = "START_PULLUP";
-                                                message.Text = "Workout Started: Ensure you pull up as close to the shoulder as possible!";
+                                                //message.Text = "Workout Started: Ensure you pull up as close to the shoulder as possible!";
                                                 stopwatch.Stop();
                                                 stopwatch.Reset();
                                                 timer_started = false;
