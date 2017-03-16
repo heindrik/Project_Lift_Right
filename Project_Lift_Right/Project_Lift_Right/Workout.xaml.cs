@@ -328,6 +328,8 @@ namespace Project_Lift_Right
                             Vector3 right_Shoulder = new Vector3(body.Joints[JointType.ShoulderRight].Position.X, body.Joints[JointType.ShoulderRight].Position.Y, body.Joints[JointType.ShoulderRight].Position.Z);
 
                             double right_arm = Vector3.Angle(Vector3.Subtract(right_Elbow, right_Shoulder), Vector3.Subtract(right_Elbow, right_Wrist));
+                            double right_elbow_down = Vector3.Angle(Vector3.Subtract(neck, right_Elbow), Vector3.Subtract(neck, spine_mid));
+
                             if (right_arm > 180) {
                                 right_arm = 360 - right_arm;
                             }
@@ -514,16 +516,201 @@ namespace Project_Lift_Right
                                     bigAssCounter.Text = "DOWN";
                                     message.Text = "";
                                     if(In_Range(START_MIN,START_MAX,left_arm)){
-                                        current_state = "DONE";
+                                        current_state = "LEFT_DONE";
                                     }
 
                                 }                                
 
                     
                             }
-                            else if (current_state == "DONE"){
+                            else if (current_state == "LEFT_DONE"){
                                 //message.Text = "Good Job! next curl";
                                 
+                                start_hold_time = 1000;
+                                current_state = "RIGHT_NOT_START";
+                            }
+                            else if (current_state == "RIGHT_NOT_START"){
+
+                                ELBOW_MAX = 38;
+                                // check elbow
+                                if(!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
+                                    message.Text = "Please ensure you elbow is shoulder width and pointed to the ground";
+                                    bigAssCounter.Text = "";
+                                    if(timer_started){
+                                        stopwatch.Stop();
+                                        stopwatch.Reset();
+                                        timer_started = false;
+                                    }
+                                }
+                                else{
+                                    
+                                    //Debug.WriteLine("NOT_START\nbigAssCounter.Text = "Ready!";
+
+                                    
+                                    // if successful, we are in the start range
+                                    if (In_Range(START_MIN, START_MAX, right_arm))
+                                    {
+                                        //Debug.WriteLine("TIMER SET");
+                                        // check if timer is set, if then set it.
+                                        if (timer_started)
+                                        {
+                                            //Debug.WriteLine("CALCULATING TIMER");
+                                            //calculate the time, then if past two seconds change stare to START_PULLUP
+                                            //stopwatch.Stop();
+                                            long current_time = stopwatch.ElapsedMilliseconds;
+
+                                            if (current_time >= start_hold_time)
+                                            {
+                                                bigAssCounter.Text = "";
+                                                current_state = "RIGHT_START_PULLUP";
+                                                //message.Text = "Workout Started: Ensure you pull up as close to the shoulder as possible!";
+                                                stopwatch.Stop();
+                                                stopwatch.Reset();
+                                                timer_started = false;
+                                            }else
+                                            {
+                                                // if less than the time, show on gui timer.
+                                                long countdown = (start_hold_time - current_time)/1000;
+                                                long temp = (start_hold_time - current_time) % 1000;
+                                                message.Text = "Hold right there!";
+                                                bigAssCounter.Text = countdown.ToString()+"."+temp.ToString();
+                                                
+                                            }
+
+                                        }
+                                        else if (!timer_started)
+                                        {
+                                            //Debug.WriteLine("Starting Timer");
+                                            // timer hasn't started so set the time
+                                            timer_started = true;
+                                            stopwatch.Start();
+                                            
+                                        }
+                                    }else
+                                    {
+                                        message.Text = "Straightened your arm. And point to the floor!";
+                                    }
+                                }
+
+                            }
+                            else if (current_state == "RIGHT_START_PULLUP"){
+                                if (right_arm > HALF_ANGLE)
+                                {
+                                    ELBOW_MAX = 38;
+                                }
+                                else
+                                {
+                                    ELBOW_MAX = 43;
+                                }
+
+                                if (!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
+                                    bigAssCounter.Text = "Wrong Form";
+                                    message.Text = "Your elbow is too far from your body!";
+                                }
+                                else{
+                                    message.Text = "";
+                                    bigAssCounter.Text = "UP";
+                                    //is the arm in hold position?
+                                    if (In_Range(END_MIN,END_MAX,right_arm)){
+                                        // yes!
+                                        current_state = "RIGHT_START_HOLD";
+                                    }
+                                }
+                            }
+                            else if (current_state == "RIGHT_START_HOLD"){
+
+                                      if(!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
+                                    bigAssCounter.Text = "Wrong Form!";
+                                    message.Text = "Your elbow is too far from your body!";
+                                    stopwatch.Stop();
+                                    stopwatch.Reset();
+                                    timer_started = false;
+                                }
+                                else{
+                                    
+                                    message.Text = "";
+                                    // is the arm still in hold postion?
+                                    if (In_Range(END_MIN,END_MAX,right_arm)){
+
+                                        // yes!
+                                        
+                                        if (timer_started){
+                                            long current_time = stopwatch.ElapsedMilliseconds;
+                                            if (current_time >= end_hold_time){
+                                                current_state = "RIGHT_START_PULLDOWN";
+                                                rep_count++;
+                                                bigAssCounter.Text = "";
+                                                stopwatch.Stop();
+                                                stopwatch.Reset();
+                                                timer_started = false;
+                                            }
+                                            else
+                                            {
+                                                long countdown = (end_hold_time - current_time) / 1000;
+                                                long temp = (end_hold_time - current_time) % 1000;
+
+                                                bigAssCounter.Text = countdown.ToString() + "." + temp.ToString();
+                                            
+                                            }
+                                        }
+                                        else{
+                                            timer_started = true;
+                                            stopwatch.Start();
+                                        }
+                                    }
+                                    else{
+
+
+                                        // no! user pull down too early
+                                        
+                                        stopwatch.Stop();
+                                        stopwatch.Reset();
+                                        timer_started = false;
+                                        bigAssCounter.Text = ":(";
+                                        message.Text = "You pulled down too early! Hold your arm until the timer has completed.";
+                                        // is the arm angle below half?
+                                        if(right_arm > HALF_ANGLE){
+                                            ELBOW_MAX = 38;
+                                            failed_rep_count++;
+                                            // yes, he is giving up the rap
+                                            current_state = "RIGHT_NOT_START";
+                                        }
+                                        else{
+                                            ELBOW_MAX = 42;
+                                            // no, he is still trying to go back
+                                            // do nothing
+                                        }
+                                    }
+                                }
+                            }
+                            else if(current_state == "RIGHT_START_PULLDOWN"){
+                                if (right_arm > HALF_ANGLE)
+                                {
+                                    ELBOW_MAX = 38;
+                                }
+                                else
+                                {
+                                    ELBOW_MAX = 43;
+                                }
+
+
+                                if (!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
+
+                                    bigAssCounter.Text = "Wrong Form!";
+                                    message.Text = "Move your elbow closer to your body!";
+
+                                }
+                                else{
+
+                                    bigAssCounter.Text = "DOWN";
+                                    message.Text = "";
+                                    if(In_Range(START_MIN,START_MAX,right_arm)){
+                                        current_state = "DONE";
+                                    }
+
+                                }               
+                            }
+                            else if (current_state == "DONE"){
                                 start_hold_time = 1000;
                                 current_state = "NOT_START";
                             }
