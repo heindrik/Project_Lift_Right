@@ -107,7 +107,9 @@ namespace Project_Lift_Right
         public const double ELBOW_MIN = 0;
         public bool timer_started = false;
         public int rep_count = 0;
+        public int right_rep_count = 0;
         public int failed_rep_count = 0;
+        public int right_failed_rep_count = 0;
         public int start_hold_time = 3000;
         public int end_hold_time = 1500;
         
@@ -333,8 +335,13 @@ namespace Project_Lift_Right
                             if (right_arm > 180) {
                                 right_arm = 360 - right_arm;
                             }
+                            if (right_elbow_down > 180)
+                            {
+                                right_elbow_down = 360 - right_elbow_down;
+                            }
                             right_value_textBlock.Text = right_arm.ToString("F");
                             elbow_angle_value.Text = elbow_down.ToString("F");
+                            right_elbow_angle_value.Text = right_elbow_down.ToString("F");
                             feedback_textBlock.Text = current_state;
                             Debug.WriteLine(elbow_down);
                       
@@ -420,7 +427,7 @@ namespace Project_Lift_Right
                                 }
                                 else{
                                     message.Text = "";
-                                    bigAssCounter.Text = "UP";
+                                    bigAssCounter.Text = "LEFT UP";
                                     //is the arm in hold position?
                                     if (In_Range(END_MIN,END_MAX,left_arm)){
                                         // yes!
@@ -513,7 +520,7 @@ namespace Project_Lift_Right
                                 }
                                 else{
 
-                                    bigAssCounter.Text = "DOWN";
+                                    bigAssCounter.Text = "LEFT DOWN";
                                     message.Text = "";
                                     if(In_Range(START_MIN,START_MAX,left_arm)){
                                         current_state = "LEFT_DONE";
@@ -609,7 +616,7 @@ namespace Project_Lift_Right
                                 }
                                 else{
                                     message.Text = "";
-                                    bigAssCounter.Text = "UP";
+                                    bigAssCounter.Text = "RIGHT UP";
                                     //is the arm in hold position?
                                     if (In_Range(END_MIN,END_MAX,right_arm)){
                                         // yes!
@@ -638,7 +645,7 @@ namespace Project_Lift_Right
                                             long current_time = stopwatch.ElapsedMilliseconds;
                                             if (current_time >= end_hold_time){
                                                 current_state = "RIGHT_START_PULLDOWN";
-                                                rep_count++;
+                                                right_rep_count++;
                                                 bigAssCounter.Text = "";
                                                 stopwatch.Stop();
                                                 stopwatch.Reset();
@@ -671,7 +678,7 @@ namespace Project_Lift_Right
                                         // is the arm angle below half?
                                         if(right_arm > HALF_ANGLE){
                                             ELBOW_MAX = 38;
-                                            failed_rep_count++;
+                                            right_failed_rep_count++;
                                             // yes, he is giving up the rap
                                             current_state = "RIGHT_NOT_START";
                                         }
@@ -702,7 +709,7 @@ namespace Project_Lift_Right
                                 }
                                 else{
 
-                                    bigAssCounter.Text = "DOWN";
+                                    bigAssCounter.Text = "RIGHT DOWN";
                                     message.Text = "";
                                     if(In_Range(START_MIN,START_MAX,right_arm)){
                                         current_state = "DONE";
@@ -724,6 +731,8 @@ namespace Project_Lift_Right
                 this.bodiesManager.UpdateBodiesAndEdges(bodies);
                 rep_counter_value.Text = rep_count.ToString();
                 failed_rep_counter_value.Text = failed_rep_count.ToString();
+                right_rep_counter_value.Text = right_rep_count.ToString();
+                right_failed_rep_counter_value.Text = right_failed_rep_count.ToString();
             }
         }
 
