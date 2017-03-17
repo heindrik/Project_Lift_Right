@@ -22,6 +22,8 @@ namespace Project_Lift_Right
     /// </summary>
     public sealed partial class Summary : Page
     {
+
+
         public Summary()
         {
             this.InitializeComponent();
@@ -35,6 +37,25 @@ namespace Project_Lift_Right
         private void restart_btn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(WorkoutSetup), null);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            PassedData data = e.Parameter as PassedData;
+            int success_ = data.left_count + data.right_count;
+            int failed_ = data.left_failed_count + data.right_failed_count;
+
+            float result_;
+            if ((success_ + failed_) == 0)
+                result_ = 0;
+            else
+                result_ = (success_ *100) / (success_ + failed_);
+            
+            workout.Text = data.Name;
+            success.Text = success_.ToString();
+            failed.Text = failed_.ToString();
+            result.Text = result_.ToString() + "%";
+
         }
     }
 }
