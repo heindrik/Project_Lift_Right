@@ -35,6 +35,16 @@ namespace Project_Lift_Right
         BodyMask,
         BodyJoints
     }
+
+    public class PassedData
+    {
+        public string Name { get; set; }
+        public int left_count { get; set; }
+        public int right_count { get; set; }
+        public int left_failed_count { get; set; }
+        public int right_failed_count { get; set; }
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -929,7 +939,7 @@ namespace Project_Lift_Right
 
         private void finish_btn_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainPage), null);
+            this.Frame.Navigate(typeof(Summary), new PassedData { Name = "Bicep Curls", left_count = rep_count , right_count = right_rep_count, left_failed_count = failed_rep_count, right_failed_count = right_failed_rep_count});
         }
     }
 }
