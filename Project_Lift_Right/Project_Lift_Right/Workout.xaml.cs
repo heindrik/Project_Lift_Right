@@ -348,6 +348,7 @@ namespace Project_Lift_Right
 
                             if (current_state == "NOT_START")
                             {
+                                arm_value.Text = "Left Arm";
                                 ELBOW_MAX = 38;
                                 // check elbow
                                 if(!In_Range(ELBOW_MIN, ELBOW_MAX, elbow_down)){
@@ -405,7 +406,7 @@ namespace Project_Lift_Right
                                         }
                                     }else
                                     {
-                                        message.Text = "Straightened your arm. And point to the floor!";
+                                        message.Text = "Straightened LEFT your arm. And point to the floor!";
                                     }
                                 }
 
@@ -418,12 +419,12 @@ namespace Project_Lift_Right
                                 }
                                 else
                                 {
-                                    ELBOW_MAX = 43;
+                                    ELBOW_MAX = 45;
                                 }
 
                                 if (!In_Range(ELBOW_MIN, ELBOW_MAX, elbow_down)){
                                     bigAssCounter.Text = "Wrong Form";
-                                    message.Text = "Your elbow is too far from your body!";
+                                    message.Text = "Your LEFT elbow is too far from your body!";
                                 }
                                 else{
                                     message.Text = "";
@@ -438,7 +439,7 @@ namespace Project_Lift_Right
                             else if (current_state == "START_HOLD"){
                                 if(!In_Range(ELBOW_MIN, ELBOW_MAX, elbow_down)){
                                     bigAssCounter.Text = "Wrong Form!";
-                                    message.Text = "Your elbow is too far from your body!";
+                                    message.Text = "Your LEFT elbow is too far from your body!";
                                     stopwatch.Stop();
                                     stopwatch.Reset();
                                     timer_started = false;
@@ -481,7 +482,7 @@ namespace Project_Lift_Right
                                         stopwatch.Reset();
                                         timer_started = false;
                                         bigAssCounter.Text = ":(";
-                                        message.Text = "You pulled down too early! Hold your arm until the timer has completed.";
+                                        message.Text = "You pulled down too early! Hold your LEFT arm until the timer has completed.";
                                         // is the arm angle below half?
                                         if(left_arm > HALF_ANGLE){
                                             ELBOW_MAX = 38;
@@ -490,7 +491,7 @@ namespace Project_Lift_Right
                                             current_state = "NOT_START";
                                         }
                                         else{
-                                            ELBOW_MAX = 42;
+                                            ELBOW_MAX = 45;
                                             // no, he is still trying to go back
                                             // do nothing
                                         }
@@ -505,14 +506,14 @@ namespace Project_Lift_Right
                                 }
                                 else
                                 {
-                                    ELBOW_MAX = 43;
+                                    ELBOW_MAX = 45;
                                 }
 
 
                                 if (!In_Range(ELBOW_MIN, ELBOW_MAX, elbow_down)){
 
                                     bigAssCounter.Text = "Wrong Form!";
-                                    message.Text = "Move your elbow closer to your body!";
+                                    message.Text = "Move your LEFT elbow closer to your body!";
 
                                 }
                                 else{
@@ -529,16 +530,16 @@ namespace Project_Lift_Right
                             }
                             else if (current_state == "LEFT_DONE"){
                                 //message.Text = "Good Job! next curl";
-                                
+                                bigAssCounter.Text = "";
                                 start_hold_time = 1000;
                                 current_state = "RIGHT_NOT_START";
                             }
                             else if (current_state == "RIGHT_NOT_START"){
-
+                                arm_value.Text = "RIGHT Arm";
                                 ELBOW_MAX = 38;
                                 // check elbow
                                 if(!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
-                                    message.Text = "Please ensure you elbow is shoulder width and pointed to the ground";
+                                    message.Text = "Please ensure your RIGHT elbow is shoulder width";
                                     bigAssCounter.Text = "";
                                     if(timer_started){
                                         stopwatch.Stop();
@@ -592,7 +593,7 @@ namespace Project_Lift_Right
                                         }
                                     }else
                                     {
-                                        message.Text = "Straightened your arm. And point to the floor!";
+                                        message.Text = "Straightened your RIGHT arm. And point to the floor!";
                                     }
                                 }
 
@@ -604,12 +605,12 @@ namespace Project_Lift_Right
                                 }
                                 else
                                 {
-                                    ELBOW_MAX = 43;
+                                    ELBOW_MAX = 45;
                                 }
 
                                 if (!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
                                     bigAssCounter.Text = "Wrong Form";
-                                    message.Text = "Your elbow is too far from your body!";
+                                    message.Text = "Your RIGHT elbow is too far from your body!";
                                 }
                                 else{
                                     message.Text = "";
@@ -625,7 +626,7 @@ namespace Project_Lift_Right
 
                                       if(!In_Range(ELBOW_MIN, ELBOW_MAX, right_elbow_down)){
                                     bigAssCounter.Text = "Wrong Form!";
-                                    message.Text = "Your elbow is too far from your body!";
+                                    message.Text = "Your RIGHT elbow is too far from your body!";
                                     stopwatch.Stop();
                                     stopwatch.Reset();
                                     timer_started = false;
@@ -671,7 +672,7 @@ namespace Project_Lift_Right
                                         stopwatch.Reset();
                                         timer_started = false;
                                         bigAssCounter.Text = ":(";
-                                        message.Text = "You pulled down too early! Hold your arm until the timer has completed.";
+                                        message.Text = "You pulled down too early! Hold your right arm until the timer has completed.";
                                         // is the arm angle below half?
                                         if(right_arm > HALF_ANGLE){
                                             ELBOW_MAX = 38;
@@ -680,7 +681,7 @@ namespace Project_Lift_Right
                                             current_state = "RIGHT_NOT_START";
                                         }
                                         else{
-                                            ELBOW_MAX = 42;
+                                            ELBOW_MAX = 45;
                                             // no, he is still trying to go back
                                             // do nothing
                                         }
@@ -694,7 +695,7 @@ namespace Project_Lift_Right
                                 }
                                 else
                                 {
-                                    ELBOW_MAX = 43;
+                                    ELBOW_MAX = 45;
                                 }
 
 
@@ -714,7 +715,8 @@ namespace Project_Lift_Right
 
                                 }               
                             }
-                            else if (current_state == "DONE"){
+                            else if (current_state == "DONE"){s
+                                bigAssCounter.Text = "";
                                 start_hold_time = 1000;
                                 current_state = "NOT_START";
                             }
