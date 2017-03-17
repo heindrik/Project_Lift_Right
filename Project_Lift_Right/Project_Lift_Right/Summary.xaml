@@ -14,9 +14,17 @@
                 <ImageBrush Stretch="Fill" ImageSource="Assets/bg_summary.jpg"/>
             </Canvas.Background>
 
-            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="976" Canvas.Top="99" Height="109">
-                <TextBlock Height="109" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="&#x0a;Final Grade :" Canvas.Top="88" Width="249" Foreground="#FFDDDDDD" FontSize="20" TextAlignment="Center" SelectionHighlightColor="#FF431D9E" Margin="0,-2"/>
+            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="981" Canvas.Top="193" Height="191">
+                <Grid Width="246">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"  FontSize="30" Text="Final Grade:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="1"  x:Name="grade" FontSize="20" Text="-----------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
             </Border>
+            
             <Button x:Name="menu_btn" Content="Main Menu" Height="50" Canvas.Left="1043" Canvas.Top="584" Width="162" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" FontSize="20" Click="menu_btn_Click" BorderThickness="1"/>
             <Grid Height="394" Canvas.Left="66" Canvas.Top="120" Width="545"   >
                 <Grid.ColumnDefinitions>
@@ -43,7 +51,6 @@
 
 
             </Grid>
-
         </Canvas>
 
     </Grid>

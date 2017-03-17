@@ -56,6 +56,32 @@ namespace Project_Lift_Right
             failed.Text = failed_.ToString();
             result.Text = result_.ToString() + "%";
 
+            if (result_ < 49)
+                grade.Text = "F";
+            else if (result_ < 52)
+                grade.Text = "D-";
+            else if (result_ < 56)
+                grade.Text = "D";
+            else if (result_ < 59)
+                grade.Text = "D+";
+            else if (result_ < 62)
+                grade.Text = "C-";
+            else if (result_ < 66)
+                grade.Text = "C";
+            else if (result_ < 69)
+                grade.Text = "C+";
+            else if (result_ < 72)
+                grade.Text = "B-";
+            else if (result_ < 76)
+                grade.Text = "B";
+            else if (result_ < 79)
+                grade.Text = "B+";
+            else if (result_ < 84)
+                grade.Text = "A-";
+            else if (result_ < 89)
+                grade.Text = "A";
+            else
+                grade.Text = "A+";
         }
     }
 }
