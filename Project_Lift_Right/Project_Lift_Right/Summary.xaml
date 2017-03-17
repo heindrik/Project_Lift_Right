@@ -13,16 +13,44 @@
             <Canvas.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Assets/bg_summary.jpg"/>
             </Canvas.Background>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Profile:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="98" Canvas.Top="86" Background="Transparent" BorderBrush="#4CDDDDDD" Foreground="#FFDDDDDD"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Workout:  &lt;name &gt;" VerticalAlignment="Top" Width="196" Canvas.Left="98" Canvas.Top="124" Background="Transparent" BorderBrush="#4CDDDDDD" Foreground="#FFDDDDDD"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Total Workout Time:  &lt;XX : XX &gt;" VerticalAlignment="Top" Width="242" Canvas.Left="98" Canvas.Top="210" Background="Transparent" BorderBrush="#4CDDDDDD" Foreground="#FFDDDDDD"/>
-            <TextBox HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="Set Accuracy Table: " VerticalAlignment="Top" Width="196" Canvas.Left="98" Canvas.Top="261" Background="Transparent" BorderBrush="#4CDDDDDD" Foreground="#FFDDDDDD"/>
-            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="976" Canvas.Top="99" Height="109">
-                <TextBlock Height="109" Canvas.Left="485" TextWrapping="Wrap" VerticalAlignment="Center" Text="&#x0a;Final Grade :" Canvas.Top="88" Width="249" Foreground="#FFDDDDDD" FontSize="20" TextAlignment="Center" SelectionHighlightColor="#FF431D9E" Margin="0,-2"/>
-            </Border>
-            <Button x:Name="menu_btn" Content="Main Menu" Height="50" Canvas.Left="237" Canvas.Top="574" Width="162" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" FontSize="20" Click="menu_btn_Click" BorderThickness="1"/>
-            <Button x:Name="restart_btn" Content="Restart" Height="50" Canvas.Left="1016" Canvas.Top="574" Width="162" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" FontSize="20" Click="restart_btn_Click" BorderThickness="1"/>
 
+            <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0" Canvas.Left="981" Canvas.Top="193" Height="191">
+                <Grid Width="246">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"  FontSize="30" Text="Final Grade:" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="1"  x:Name="grade" FontSize="20" Text="-----------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+            
+            <Button x:Name="menu_btn" Content="Main Menu" Height="50" Canvas.Left="1043" Canvas.Top="584" Width="162" Foreground="#FFDDDDDD" BorderBrush="#FFDDDDDD" FontSize="20" Click="menu_btn_Click" BorderThickness="1"/>
+            <Grid Height="394" Canvas.Left="66" Canvas.Top="120" Width="545"   >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Column="0" Grid.Row="0" Height="33" TextWrapping="Wrap" Text="Workout:" Width="101" Background="Transparent"   BorderBrush="{x:Null}" Foreground="#FFDDDDDD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                <TextBox Grid.Column="0" Grid.Row="1" Height="33" TextWrapping="Wrap" Text="Success:" Width="90" Background="Transparent"  BorderBrush="{x:Null}" Foreground="#FFDDDDDD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/>
+                <TextBox Grid.Column="0" Grid.Row="2" Height="33" TextWrapping="Wrap" Text="Failed:"  Width="90" Background="Transparent"  BorderBrush="{x:Null}" Foreground="#FFDDDDDD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                <TextBox Grid.Column="0" Grid.Row="3" Height="33" TextWrapping="Wrap" Text="Result:" Width="90" Background="Transparent"  BorderBrush="{x:Null}" Foreground="#FFDDDDDD" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/>
+
+                <!-- exercise result -->
+                <TextBlock Grid.Column="1" Grid.Row="0" x:Name="workout"  FontSize="30" Text="-------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="success"  FontSize="30" Text="-------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Grid.Row="2" x:Name="failed"  FontSize="30" Text="-------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Grid.Row="3" x:Name="result"  FontSize="30" Text="-------" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+            </Grid>
         </Canvas>
 
     </Grid>
