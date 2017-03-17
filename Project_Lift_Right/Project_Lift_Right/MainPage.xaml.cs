@@ -46,7 +46,7 @@ namespace Project_Lift_Right
 
         private void straight_to_workout_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(Workout), null);
+            this.Frame.Navigate(typeof(BarbellFrontRaise), null);
         }
     }
     //Hello

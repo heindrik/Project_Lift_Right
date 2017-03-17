@@ -476,10 +476,7 @@ namespace Project_Lift_Right
                                         }
                                     }
                                     else{
-
-
                                         // no! user pull down too early
-                                        
                                         stopwatch.Stop();
                                         stopwatch.Reset();
                                         timer_started = false;
