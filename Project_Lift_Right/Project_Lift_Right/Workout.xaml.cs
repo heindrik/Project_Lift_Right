@@ -725,7 +725,7 @@ namespace Project_Lift_Right
 
                                 }               
                             }
-                            else if (current_state == "DONE"){s
+                            else if (current_state == "DONE"){
                                 bigAssCounter.Text = "";
                                 start_hold_time = 1000;
                                 current_state = "NOT_START";
