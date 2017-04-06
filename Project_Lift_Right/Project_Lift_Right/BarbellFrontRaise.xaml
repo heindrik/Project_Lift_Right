@@ -48,6 +48,10 @@
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Style="{StaticResource SubheaderTextBlockStyle}"
                        Text="LIFT RIGHT" />
+                <MediaElement x:Name="Beep" Source="/Assets/Beep.wav" Height="0" Width="0" AutoPlay="False"/>
+                <MediaElement x:Name="UP" Source="/Assets/UP.mp3" Height="0" Width="0" AutoPlay="False"/>
+                <MediaElement x:Name="DOWN" Source="/Assets/Down.mp3" Height="0" Width="0" AutoPlay="False"/>
+                <MediaElement x:Name="holdrightthere" Source="/Assets/holdrightthere.mp3" Height="0" Width="0" AutoPlay="False"/>
             </StackPanel>
 
             <!-- Kinect Color Camera and Body Joints Grid -->

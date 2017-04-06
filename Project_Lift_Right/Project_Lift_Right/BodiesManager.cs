@@ -322,11 +322,11 @@ namespace Project_Lift_Right
                 {
                     ellipse.Fill = new SolidColorBrush(Colors.Green);
                 }
-                else
-                {
-                    // inferred joints are yellow
-                    ellipse.Fill = new SolidColorBrush(Colors.Yellow);
-                }
+                //else
+                //{
+                //    // inferred joints are yellow
+                //    ellipse.Fill = new SolidColorBrush(Colors.Yellow);
+                //}
 
                 Canvas.SetLeft(ellipse, point.X - JointThickness / 2);
                 Canvas.SetTop(ellipse, point.Y - JointThickness / 2);

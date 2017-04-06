@@ -105,7 +105,9 @@ namespace Project_Lift_Right
             public int start_hold_time = 3000;
             public int end_hold_time = 1500;
 
-
+            public Stopwatch stopwatch_voice = new Stopwatch();
+            public int voice_time = 2000;
+            public bool voice_start = false;
 
             //Infrared Frame 
             private InfraredFrameReader infraredFrameReader = null;
@@ -346,6 +348,7 @@ namespace Project_Lift_Right
                                     if (!In_Range(BEND_MIN, BEND_MAX, left_arm))
                                     {
                                         message.Text = "Please ensure your arm is straight.";
+                                        Beep.Play();
                                         bigAssCounter.Text = "";
                                         if (timer_started)
                                         {
@@ -387,6 +390,7 @@ namespace Project_Lift_Right
                                                     long countdown = (start_hold_time - current_time) / 1000;
                                                     long temp = (start_hold_time - current_time) % 1000;
                                                     message.Text = "Hold right there!";
+                                                    voice(holdrightthere);
                                                     bigAssCounter.Text = countdown.ToString() + "." + temp.ToString();
 
                                                 }
@@ -403,7 +407,8 @@ namespace Project_Lift_Right
                                         }
                                         else
                                         {
-                                            message.Text = "Straightened your arm. And point to the floor!";
+                                            message.Text = "Straighten your arm. And point to the floor!";
+                                            Beep.Play();
                                         }
                                     }
 
@@ -414,11 +419,13 @@ namespace Project_Lift_Right
                                         {
                                             bigAssCounter.Text = "Wrong Form";
                                             message.Text = "Your arm is not straight.";
+                                            Beep.Play();
                                         }
                                         else
                                         {
                                             message.Text = "";
                                             bigAssCounter.Text = "UP";
+                                            voice(UP);
                                             //is the arm in hold position?
                                             if (In_Range(END_MIN, END_MAX, raised_arm))
                                             {
@@ -434,6 +441,7 @@ namespace Project_Lift_Right
                                     {
                                         bigAssCounter.Text = "Wrong Form!";
                                         message.Text = "Straigthen your arm.";
+                                        Beep.Play();
                                         stopwatch.Stop();
                                         stopwatch.Reset();
                                         timer_started = false;
@@ -459,6 +467,10 @@ namespace Project_Lift_Right
                                                     stopwatch.Stop();
                                                     stopwatch.Reset();
                                                     timer_started = false;
+
+                                                    stopwatch_voice.Stop();
+                                                    stopwatch_voice.Reset();
+                                                    voice_start = false;
                                                 }
                                                 else
                                                 {
@@ -481,6 +493,7 @@ namespace Project_Lift_Right
                                             stopwatch.Stop();
                                             stopwatch.Reset();
                                             timer_started = false;
+                                            Beep.Play();
                                             bigAssCounter.Text = ":(";
                                             message.Text = "You pulled down too early! Hold your arm until the timer has completed.";
                                             // is the arm angle below half?
@@ -489,6 +502,10 @@ namespace Project_Lift_Right
                                                 failed_rep_count++;
                                                 // yes, he is giving up the rap
                                                 current_state = "NOT_START";
+
+                                                stopwatch_voice.Stop();
+                                                stopwatch_voice.Reset();
+                                                voice_start = false;
                                             }
                                             else
                                             {
@@ -506,6 +523,7 @@ namespace Project_Lift_Right
 
                                         bigAssCounter.Text = "Wrong Form!";
                                         message.Text = "Move your elbow closer to your body!";
+                                        Beep.Play();
 
                                     }
                                     else
@@ -513,9 +531,13 @@ namespace Project_Lift_Right
 
                                         bigAssCounter.Text = "DOWN";
                                         message.Text = "";
+                                        voice(DOWN);
                                         if (In_Range(START_MIN, START_MAX, raised_arm))
                                         {
                                             current_state = "LEFT_DONE";
+                                            stopwatch_voice.Stop();
+                                            stopwatch_voice.Reset();
+                                            voice_start = false;
                                         }
 
                                     }
@@ -533,12 +555,17 @@ namespace Project_Lift_Right
                                     if (!In_Range(BEND_MIN, BEND_MAX, right_arm))
                                     {
                                         message.Text = "Please ensure your right arm is straight.";
+                                        Beep.Play();
                                         bigAssCounter.Text = "";
                                         if (timer_started)
                                         {
                                             stopwatch.Stop();
                                             stopwatch.Reset();
                                             timer_started = false;
+
+                                            stopwatch_voice.Stop();
+                                            stopwatch_voice.Reset();
+                                            voice_start = false;
                                         }
                                     }
                                     else
@@ -564,6 +591,10 @@ namespace Project_Lift_Right
                                                     stopwatch.Stop();
                                                     stopwatch.Reset();
                                                     timer_started = false;
+
+                                                    stopwatch_voice.Stop();
+                                                    stopwatch_voice.Reset();
+                                                    voice_start = false;
                                                 }
                                                 else
                                                 {
@@ -571,6 +602,7 @@ namespace Project_Lift_Right
                                                     long countdown = (start_hold_time - current_time) / 1000;
                                                     long temp = (start_hold_time - current_time) % 1000;
                                                     message.Text = "Hold right there!";
+                                                    voice(holdrightthere);
                                                     bigAssCounter.Text = countdown.ToString() + "." + temp.ToString();
 
                                                 }
@@ -588,6 +620,7 @@ namespace Project_Lift_Right
                                         else
                                         {
                                             message.Text = "Straightened your arm. And point to the floor!";
+                                            Beep.Play();
                                         }
                                     }
 
@@ -598,11 +631,13 @@ namespace Project_Lift_Right
                                     {
                                         bigAssCounter.Text = "Wrong Form";
                                         message.Text = "Your arm is not straight.";
+                                        Beep.Play();
                                     }
                                     else
                                     {
                                         message.Text = "";
                                         bigAssCounter.Text = "UP";
+                                        voice(UP);
                                         //is the arm in hold position?
                                         if (In_Range(END_MIN, END_MAX, right_raised_arm))
                                         {
@@ -618,9 +653,14 @@ namespace Project_Lift_Right
                                     {
                                         bigAssCounter.Text = "Wrong Form!";
                                         message.Text = "Straigthen your arm.";
+                                        Beep.Play();
                                         stopwatch.Stop();
                                         stopwatch.Reset();
                                         timer_started = false;
+
+                                        stopwatch_voice.Stop();
+                                        stopwatch_voice.Reset();
+                                        voice_start = false;
                                     }
                                     else
                                     {
@@ -643,6 +683,10 @@ namespace Project_Lift_Right
                                                     stopwatch.Stop();
                                                     stopwatch.Reset();
                                                     timer_started = false;
+
+                                                    stopwatch_voice.Stop();
+                                                    stopwatch_voice.Reset();
+                                                    voice_start = false;
                                                 }
                                                 else
                                                 {
@@ -665,6 +709,7 @@ namespace Project_Lift_Right
                                             stopwatch.Stop();
                                             stopwatch.Reset();
                                             timer_started = false;
+                                            Beep.Play();
                                             bigAssCounter.Text = ":(";
                                             message.Text = "You pulled down too early! Hold your arm until the timer has completed.";
                                             // is the arm angle below half?
@@ -673,6 +718,10 @@ namespace Project_Lift_Right
                                                 right_failed_rep_count++;
                                                 // yes, he is giving up the rap
                                                 current_state = "NOT_START";
+
+                                                stopwatch_voice.Stop();
+                                                stopwatch_voice.Reset();
+                                                voice_start = false;
                                             }
                                             else
                                             {
@@ -689,6 +738,7 @@ namespace Project_Lift_Right
 
                                         bigAssCounter.Text = "Wrong Form!";
                                         message.Text = "Straighten your arm!";
+                                        Beep.Play();
 
                                     }
                                     else
@@ -696,9 +746,11 @@ namespace Project_Lift_Right
 
                                         bigAssCounter.Text = "DOWN";
                                         message.Text = "";
+                                        voice(DOWN);
                                         if (In_Range(START_MIN, START_MAX, right_raised_arm))
                                         {
                                             current_state = "DONE";
+                                          
                                         }
 
                                     }
@@ -707,6 +759,9 @@ namespace Project_Lift_Right
                                     {
                                     start_hold_time = 1000;
                                     current_state = "NOT_START";
+                                    stopwatch_voice.Stop();
+                                    stopwatch_voice.Reset();
+                                    voice_start = false;
                                 }
                             }
                         }
@@ -749,6 +804,29 @@ namespace Project_Lift_Right
                 {
                     this.ConvertInfraredDataToPixels();
                     this.RenderPixelArray(this.infraredPixels);
+                }
+            }
+
+            public void voice(MediaElement inst)
+            {
+                if (!voice_start)
+                {
+                    stopwatch_voice.Start();
+                    voice_start = true;
+                    //leftup.
+                    inst.Play();
+                }
+                else
+                {
+
+                    long current_time = stopwatch_voice.ElapsedMilliseconds;
+                    if (current_time >= voice_time)
+                    {
+                        stopwatch_voice.Stop();
+                        stopwatch_voice.Reset();
+                        voice_start = false;
+                    }
+
                 }
             }
 
